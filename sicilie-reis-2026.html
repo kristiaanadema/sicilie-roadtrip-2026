@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sicilië Roadtrip · Augustus 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #F9F5EE;
+  --warm: #EDE5D8;
+  --sand: #C9B99A;
+  --terra: #C4622D;
+  --terra-light: #E8896A;
+  --ocean: #1B4F6B;
+  --ocean-mid: #2B6A8E;
+  --dark: #181510;
+  --mid: #4A4540;
+  --muted: #8A8278;
+  --white: #FFFFFF;
+  --green: #2E6B42;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  background: var(--ocean);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 80px 64px 72px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-circle {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+}
+.hero-bg-circle:nth-child(1) { width: 600px; height: 600px; top: -200px; right: -150px; }
+.hero-bg-circle:nth-child(2) { width: 400px; height: 400px; bottom: -100px; left: 20%; background: rgba(196,98,45,0.12); }
+.hero-bg-circle:nth-child(3) { width: 200px; height: 200px; top: 40%; left: -50px; background: rgba(255,255,255,0.02); }
+
+.hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 20px; position: relative; z-index: 1; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(52px, 9vw, 96px); font-weight: 700; line-height: 1.0; color: white; margin-bottom: 12px; position: relative; z-index: 1; }
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--terra-light); }
+.hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 48px; position: relative; z-index: 1; letter-spacing: 0.02em; }
+.hero-route { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1; }
+.hero-route-city { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); }
+.hero-route-city.active { color: var(--terra-light); }
+.hero-route-arrow { color: rgba(255,255,255,0.25); font-size: 12px; }
+.hero-scroll { position: absolute; bottom: 40px; right: 64px; display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 1; }
+.hero-scroll-line { width: 1px; height: 48px; background: rgba(255,255,255,0.2); }
+
+/* ─── MAIN CONTENT ─── */
+.main { max-width: 960px; margin: 0 auto; padding: 80px 40px 120px; }
+
+/* ─── SECTION LABELS ─── */
+.section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
+
+/* ─── FLIGHT CARDS ─── */
+.flight-section { margin-bottom: 80px; }
+.flights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .flights-grid { grid-template-columns: 1fr; } }
+
+.flight-card {
+  background: var(--white);
+  border: 0.5px solid var(--warm);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.flight-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.flight-card.outbound::before { background: var(--ocean-mid); }
+.flight-card.return::before { background: var(--terra); }
+
+.flight-card-type { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.flight-card.outbound .flight-card-type { color: var(--ocean-mid); }
+.flight-card.return .flight-card-type { color: var(--terra); }
+.flight-date { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.flight-airports { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.flight-iata { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600; color: var(--dark); line-height: 1; }
+.flight-connector { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.flight-connector-line { width: 100%; height: 1px; background: var(--warm); position: relative; }
+.flight-connector-line::after { content: '›'; position: absolute; right: -4px; top: -9px; font-size: 14px; color: var(--sand); }
+.flight-duration { font-size: 11px; color: var(--muted); }
+.flight-cities-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+.flight-meta-row { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 0.5px solid var(--warm); }
+.flight-airline { font-size: 12px; font-weight: 500; color: var(--dark); }
+.flight-tag { font-size: 10px; font-weight: 500; padding: 3px 9px; border-radius: 100px; background: #E2F0E8; color: var(--green); }
+.flight-time-row { display: flex; gap: 6px; margin-bottom: 4px; }
+.flight-time { font-size: 22px; font-weight: 600; color: var(--dark); letter-spacing: -0.02em; }
+.flight-price { font-size: 15px; font-weight: 500; color: var(--dark); }
+.flight-price-sub { font-size: 11px; color: var(--muted); }
+.flight-number { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 3px; }
+
+/* ─── LIVE STATUS ─── */
+.live-block { border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+.live-header { background: var(--ocean); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.live-header-left { display: flex; align-items: center; gap: 10px; }
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: #6FD99A; flex-shrink: 0; animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.live-dot.orange { background: #F5A623; }
+.live-dot.gray { background: rgba(255,255,255,0.3); animation: none; }
+.live-label { font-size: 12px; font-weight: 600; color: white; }
+.live-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+.live-updated { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.04em; }
+.live-track-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.live-track-link { font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 6px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); text-decoration: none; border: 0.5px solid rgba(255,255,255,0.18); transition: background 0.15s; white-space: nowrap; }
+.live-track-link:hover { background: rgba(255,255,255,0.22); }
+.live-body { background: white; border: 0.5px solid var(--warm); border-top: none; border-radius: 0 0 14px 14px; padding: 16px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .live-body { grid-template-columns: 1fr; } }
+.live-info-block { }
+.live-info-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.live-info-row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 0.5px solid var(--cream); color: var(--mid); }
+.live-info-row:last-child { border-bottom: none; }
+.live-info-row span:last-child { font-weight: 500; color: var(--dark); }
+.live-status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 100px; }
+.pill-scheduled { background: #E0EEF7; color: #1B5A7A; }
+.pill-ontime { background: #E2F0E8; color: #2E6B42; }
+.pill-loading { background: var(--warm); color: var(--muted); }
+
+/* ─── TIMELINE ─── */
+.timeline-section { }
+.timeline { position: relative; padding-left: 48px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--warm) 5%, var(--warm) 95%, transparent);
+}
+
+.timeline-item { position: relative; margin-bottom: 12px; }
+.timeline-dot {
+  position: absolute;
+  left: -40px; top: 22px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid var(--cream);
+  z-index: 1;
+}
+.timeline-item:last-child .timeline-dot { background: var(--mid) !important; }
+
+.timeline-card {
+  background: var(--white);
+  border: 0.5px solid var(--warm);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.timeline-card:hover { border-color: var(--sand); transform: translateY(-1px); }
+
+.timeline-card-inner { padding: 20px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.timeline-card-left { flex: 1; }
+.timeline-card-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+.timeline-day { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.timeline-dates { font-size: 11px; color: var(--sand); }
+.timeline-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.ttag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 100px; }
+.ttag-stad { background: #EEE8F8; color: #5C44A8; }
+.ttag-natuur { background: #E2F0E8; color: #2E6B42; }
+.ttag-strand { background: #E0EEF7; color: #1B5A7A; }
+.ttag-eten { background: #F5EDD8; color: #7A5520; }
+.ttag-rijdag { background: #F5EAE2; color: #8A3E1C; }
+.ttag-cultuur { background: #EEE8F8; color: #5C44A8; }
+
+.timeline-place { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 5px; }
+.timeline-desc { font-size: 13px; color: var(--mid); line-height: 1.55; max-width: 520px; }
+.drive-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); background: var(--cream); border: 0.5px solid var(--warm); border-radius: 6px; padding: 3px 9px; margin-top: 8px; }
+
+.timeline-card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; padding-top: 2px; }
+.timeline-nights { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.timeline-open-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--cream);
+  border: 0.5px solid var(--warm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--mid);
+  font-size: 16px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.timeline-card:hover .timeline-open-btn { background: var(--terra); border-color: var(--terra); color: white; }
+
+/* VERBLIJF-items (grotere kaarten) */
+.timeline-item.is-stay .timeline-card { border-left: 3px solid transparent; }
+.timeline-item.is-stay.catania .timeline-card { border-left-color: #7F77DD; }
+.timeline-item.is-stay.taormina .timeline-card { border-left-color: #1D9E75; }
+.timeline-item.is-stay.milazzo .timeline-card { border-left-color: #2B5F7E; }
+.timeline-item.is-stay.cefalù .timeline-card { border-left-color: #BA7517; }
+.timeline-item.is-stay.palermo .timeline-card { border-left-color: #7F77DD; }
+
+/* Photo strip preview */
+.photo-strip { display: flex; gap: 6px; padding: 0 24px 20px; overflow-x: auto; scrollbar-width: none; }
+.photo-strip::-webkit-scrollbar { display: none; }
+.photo-thumb {
+  width: 80px; height: 56px; border-radius: 8px;
+  background: var(--warm);
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.photo-thumb.placeholder { background: linear-gradient(135deg, var(--warm), var(--sand)); }
+.photo-thumb.add-btn {
+  background: var(--cream);
+  border: 1.5px dashed var(--sand);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sand);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(24,21,16,0.7);
+  z-index: 1000;
+  align-items: flex-end;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--white);
+  border-radius: 24px 24px 0 0;
+  width: 100%; max-width: 680px;
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-drag-handle { width: 40px; height: 4px; background: var(--warm); border-radius: 2px; margin: 16px auto 0; }
+
+.modal-header { padding: 20px 28px 0; }
+.modal-location-type { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+.modal-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.modal-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--cream); border: 0.5px solid var(--warm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; color: var(--mid);
+}
+.modal-close:hover { background: var(--warm); }
+
+.modal-photos { padding: 0 28px 20px; }
+.modal-photo-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 6px; border-radius: 12px; overflow: hidden; }
+.modal-photo-main { aspect-ratio: 4/3; background: var(--warm); overflow: hidden; }
+.modal-photo-side { display: flex; flex-direction: column; gap: 6px; }
+.modal-photo-thumb { flex: 1; background: var(--warm); min-height: 80px; overflow: hidden; }
+.modal-photo-main img, .modal-photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.modal-photo-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--warm) 0%, var(--sand) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5); font-size: 28px;
+}
+.modal-photo-add {
+  flex: 1; background: var(--cream);
+  border: 1.5px dashed var(--sand);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sand); font-size: 20px; cursor: pointer;
+  min-height: 80px;
+}
+
+.modal-body { padding: 0 28px 28px; }
+
+.modal-section { margin-bottom: 24px; }
+.modal-section-title { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+.modal-info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 0.5px solid var(--cream); font-size: 13px; gap: 12px; }
+.modal-info-row:last-child { border-bottom: none; }
+.modal-info-label { color: var(--mid); flex-shrink: 0; }
+.modal-info-value { font-weight: 500; color: var(--dark); text-align: right; }
+.modal-info-value a { color: var(--ocean-mid); text-decoration: none; }
+
+.modal-description { font-size: 13px; color: var(--mid); line-height: 1.65; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.modal-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: opacity 0.15s;
+}
+.modal-btn:hover { opacity: 0.85; }
+.modal-btn-primary { background: var(--ocean); color: white; }
+.modal-btn-secondary { background: var(--cream); color: var(--dark); border: 0.5px solid var(--warm); }
+.modal-btn-terra { background: var(--terra); color: white; }
+
+.modal-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.modal-highlight { background: var(--cream); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--mid); line-height: 1.45; border-left: 3px solid var(--sand); }
+
+/* ─── BUDGET BOX ─── */
+.budget-section { margin-top: 80px; }
+.budget-card { background: var(--dark); color: white; border-radius: 20px; padding: 40px; }
+.budget-card h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.budget-card-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 32px; }
+.budget-rows { margin-bottom: 28px; }
+.budget-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.08); font-size: 13px; }
+.budget-row:last-child { border-bottom: none; }
+.budget-row-label { color: rgba(255,255,255,0.6); }
+.budget-row-value { font-weight: 500; color: white; }
+.budget-row-value.confirmed { color: #6FD99A; }
+.budget-total-row { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; }
+.budget-total-label { font-size: 13px; color: rgba(255,255,255,0.6); }
+.budget-total-amount { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 600; color: white; }
+
+/* ─── FOOTER ─── */
+.footer { background: var(--dark); color: rgba(255,255,255,0.3); text-align: center; padding: 32px; font-size: 11px; letter-spacing: 0.05em; }
+
+@media (max-width: 720px) {
+  .hero { padding: 60px 28px 52px; }
+  .main { padding: 60px 24px 80px; }
+  .hero-scroll { display: none; }
+  .modal { border-radius: 20px 20px 0 0; }
+  .modal-photo-grid { grid-template-columns: 1fr 1fr; }
+  .modal-photo-side { flex-direction: row; }
+  .modal-photo-main { grid-column: 1/-1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-circle"></div>
+  <div class="hero-eyebrow">Reisplan · 2 personen · Augustus 2026</div>
+  <h1>Sicilië<br><em>Roadtrip</em></h1>
+  <p class="hero-sub">2 augustus — 14 augustus &nbsp;·&nbsp; 13 dagen &nbsp;·&nbsp; Kristiaan &amp; vriendin</p>
+  <div class="hero-route">
+    <span class="hero-route-city active">✈ RTM</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city active">Catania</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city">Taormina</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city">Etna</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city">Milazzo</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city">Eolische eilanden</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city">Cefalù</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city">Palermo</span>
+    <span class="hero-route-arrow">→</span>
+    <span class="hero-route-city active">✈ RTM</span>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<div class="main">
+
+  <!-- ─── VLUCHTEN ─── -->
+  <section class="flight-section">
+    <p class="section-label">Vluchten &amp; parking — geboekt</p>
+    <div class="flights-grid">
+
+      <div class="flight-card outbound" onclick="openModal('flight-hv5613')" style="cursor:pointer">
+        <div class="flight-card-type">Heenvlucht</div>
+        <div class="flight-number">HV5613</div>
+        <div class="flight-date">Zondag 2 augustus 2026</div>
+        <div class="flight-time-row">
+          <span class="flight-time">15:30</span>
+          <span style="font-size:15px; color:var(--muted); align-self:center; margin:0 4px;">→</span>
+          <span class="flight-time">18:15</span>
+        </div>
+        <div class="flight-airports">
+          <div>
+            <div class="flight-iata">RTM</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Rotterdam The Hague</div>
+          </div>
+          <div class="flight-connector">
+            <div class="flight-connector-line"></div>
+            <div class="flight-duration">2u 45m · Direct</div>
+          </div>
+          <div style="text-align:right">
+            <div class="flight-iata">CTA</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Catania Fontanarossa</div>
+          </div>
+        </div>
+        <div class="flight-meta-row">
+          <div>
+            <div class="flight-airline">Transavia</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px">2 pers. incl. ruimbagage</div>
+          </div>
+          <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px">
+            <div class="flight-price">€301,17</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <span class="flight-tag">✓ geboekt</span>
+              <span style="font-size:11px;color:var(--ocean-mid);font-weight:500">Details →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flight-card return" onclick="openModal('flight-hv5640')" style="cursor:pointer">
+        <div class="flight-card-type">Terugvlucht</div>
+        <div class="flight-number">HV5640</div>
+        <div class="flight-date">Vrijdag 14 augustus 2026</div>
+        <div class="flight-time-row">
+          <span class="flight-time">19:55</span>
+          <span style="font-size:15px; color:var(--muted); align-self:center; margin:0 4px;">→</span>
+          <span class="flight-time">22:40</span>
+        </div>
+        <div class="flight-airports">
+          <div>
+            <div class="flight-iata">PMO</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Falcone-Borsellino</div>
+          </div>
+          <div class="flight-connector">
+            <div class="flight-connector-line"></div>
+            <div class="flight-duration">2u 45m · Direct</div>
+          </div>
+          <div style="text-align:right">
+            <div class="flight-iata">RTM</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Rotterdam The Hague</div>
+          </div>
+        </div>
+        <div class="flight-meta-row">
+          <div>
+            <div class="flight-airline">Transavia</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px">2 pers. incl. ruimbagage</div>
+          </div>
+          <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px">
+            <div class="flight-price">€503,27</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <span class="flight-tag">✓ geboekt</span>
+              <span style="font-size:11px;color:var(--terra);font-weight:500">Details →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:16px; background:white; border:0.5px solid var(--warm); border-radius:12px; padding:16px 22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <div style="font-size:12px; font-weight:500; color:var(--dark); margin-bottom:3px">🅿 Speed Parking Rotterdam · 13 dagen</div>
+        <div style="font-size:11px; color:var(--muted)">Gratis shuttle · Open 04:15–00:00 · Sleutels meenemen · Niet overdekt</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:18px; font-weight:600; color:var(--dark)">€113,00</div>
+        <span class="flight-tag">✓ geboekt</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TIMELINE ─── -->
+  <section class="timeline-section">
+    <p class="section-label">Dagschema &amp; verblijven — klik voor details</p>
+
+    <div class="timeline">
+
+      <!-- DAG 1-2: CATANIA -->
+      <div class="timeline-item is-stay catania" onclick="openModal('catania')">
+        <div class="timeline-dot" style="background:#7F77DD"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 1–2</span>
+                <span class="timeline-dates">2–5 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-stad">Stad</span><span class="ttag ttag-eten">Eten</span><span class="ttag ttag-strand">Strand</span></div>
+              </div>
+              <div class="timeline-place">Catania</div>
+              <div class="timeline-desc">Auto ophalen · Piazza del Duomo & Vismarkt · Teatro Romano · strand Lido di Plaja · pasta alla Norma · granita con brioche</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:6px">📍 Via Marchese di Casalotto, 67</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-nights">3 nachten</div>
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+          <div class="photo-strip">
+            <div class="photo-thumb"><img src="Verblijf 1/0e1587db-df0a-45be-92af-00631773b883.avif" alt="Verblijf Catania"></div>
+            <div class="photo-thumb"><img src="Verblijf 1/3fc0f02b-903b-4362-a688-bd3bebeb169b.avif" alt="Verblijf Catania"></div>
+            <div class="photo-thumb"><img src="Verblijf 1/5eb55ccf-fb66-4f81-89b0-edea9f3c2aaa.avif" alt="Verblijf Catania"></div>
+            <div class="photo-thumb"><img src="Verblijf 1/8b3c74cc-c0c9-43fb-9ecf-74280db1408c.avif" alt="Verblijf Catania"></div>
+            <div class="photo-thumb"><img src="Verblijf 1/f57ead14-f8c3-4afe-9268-5d425758e91c.avif" alt="Verblijf Catania"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 3: NAAR TAORMINA -->
+      <div class="timeline-item" onclick="openModal('taormina')">
+        <div class="timeline-dot" style="background:#1D9E75"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 3</span>
+                <span class="timeline-dates">5 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-rijdag">Rijdag</span><span class="ttag ttag-stad">Stad</span></div>
+              </div>
+              <div class="timeline-place">Catania → Taormina</div>
+              <div class="timeline-desc">Grieks theater · Corso Umberto · Isola Bella strand · Etna-uitzicht bij zonsondergang</div>
+              <div class="drive-badge">🚗 ~45 min via A18</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 3-4: TAORMINA VERBLIJF -->
+      <div class="timeline-item is-stay taormina" onclick="openModal('taormina')">
+        <div class="timeline-dot" style="background:#1D9E75"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 3–4</span>
+                <span class="timeline-dates">5–7 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-natuur">Natuur</span><span class="ttag ttag-strand">Strand</span><span class="ttag ttag-cultuur">Cultuur</span></div>
+              </div>
+              <div class="timeline-place">Taormina & Etna</div>
+              <div class="timeline-desc">Wandeling op de Etna (lavavelden, optioneel kabelbaan) · strand · aperitivo met uitzicht · Rifugio Sapienza</div>
+              <div class="drive-badge">🌋 ~45 min v/v naar Etna</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-nights">2 nachten</div>
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+          <div class="photo-strip">
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb add-btn" onclick="event.stopPropagation()">＋</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 5: NAAR MILAZZO -->
+      <div class="timeline-item" onclick="openModal('milazzo')">
+        <div class="timeline-dot" style="background:#2B5F7E"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 5</span>
+                <span class="timeline-dates">7 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-rijdag">Rijdag</span><span class="ttag ttag-stad">Stad</span></div>
+              </div>
+              <div class="timeline-place">Taormina → Milazzo</div>
+              <div class="timeline-desc">Optionele stop Messina (kathedraal + klokkenspel 12u) · aankomst Milazzo · boottickets regelen · visrestaurant</div>
+              <div class="drive-badge">🚗 ~1u15 via A18/A20</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 5-6: MILAZZO & EOLISCHE EILANDEN -->
+      <div class="timeline-item is-stay milazzo" onclick="openModal('milazzo')">
+        <div class="timeline-dot" style="background:#2B5F7E"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 5–6</span>
+                <span class="timeline-dates">7–9 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-natuur">Natuur</span><span class="ttag ttag-strand">Strand</span></div>
+              </div>
+              <div class="timeline-place">Milazzo &amp; Eolische eilanden</div>
+              <div class="timeline-desc">Vroege hydrofoil · Lipari &amp; Vulcano · zwemmen in kristalhelder water · zwavelpoelen · avond Milazzo</div>
+              <div class="drive-badge">⛴ ~45 min boot Milazzo → Lipari</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-nights">2 nachten</div>
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+          <div class="photo-strip">
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb add-btn" onclick="event.stopPropagation()">＋</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 7: NAAR CEFALÙ -->
+      <div class="timeline-item" onclick="openModal('cefalù')">
+        <div class="timeline-dot" style="background:#BA7517"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 7</span>
+                <span class="timeline-dates">9 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-rijdag">Rijdag</span><span class="ttag ttag-strand">Strand</span></div>
+              </div>
+              <div class="timeline-place">Milazzo → Cefalù</div>
+              <div class="timeline-desc">Kustrit langs de Tyrreense zee · inchecken · strand · kathedraal van buiten · historisch centrum</div>
+              <div class="drive-badge">🚗 ~1u35 via A20</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 7-8: CEFALÙ -->
+      <div class="timeline-item is-stay cefalù" onclick="openModal('cefalù')">
+        <div class="timeline-dot" style="background:#BA7517"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 7–8</span>
+                <span class="timeline-dates">9–11 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-cultuur">Cultuur</span><span class="ttag ttag-strand">Strand</span></div>
+              </div>
+              <div class="timeline-place">Cefalù</div>
+              <div class="timeline-desc">Kathedraal (Byzantijnse mozaïeken) · strand & chillen · wandeling naar de Rocca bij zonsondergang</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-nights">2 nachten</div>
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+          <div class="photo-strip">
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb add-btn" onclick="event.stopPropagation()">＋</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 9: NAAR PALERMO -->
+      <div class="timeline-item" onclick="openModal('palermo')">
+        <div class="timeline-dot" style="background:#7F77DD"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 9</span>
+                <span class="timeline-dates">11 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-rijdag">Rijdag</span><span class="ttag ttag-cultuur">Cultuur</span></div>
+              </div>
+              <div class="timeline-place">Cefalù → Palermo</div>
+              <div class="timeline-desc">Korte rit · Cappella Palatina (goudmozaïeken) · street food op de Ballarò-markt · aperitivo op een piazza</div>
+              <div class="drive-badge">🚗 ~55 min via A19</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAG 9-11: PALERMO -->
+      <div class="timeline-item is-stay palermo" onclick="openModal('palermo')">
+        <div class="timeline-dot" style="background:#7F77DD"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 9–11</span>
+                <span class="timeline-dates">11–13 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-cultuur">Cultuur</span><span class="ttag ttag-eten">Eten</span></div>
+              </div>
+              <div class="timeline-place">Palermo</div>
+              <div class="timeline-desc">Kathedraal & Quattro Canti · rustig slenteren · laatste avonddiner, cannolo, herinneringen ophalen</div>
+            </div>
+            <div class="timeline-card-right">
+              <div class="timeline-nights">2 nachten</div>
+              <div class="timeline-open-btn">＋</div>
+            </div>
+          </div>
+          <div class="photo-strip">
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb placeholder"></div>
+            <div class="photo-thumb add-btn" onclick="event.stopPropagation()">＋</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VERTREK -->
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--mid)"></div>
+        <div class="timeline-card" style="cursor:default">
+          <div class="timeline-card-inner">
+            <div class="timeline-card-left">
+              <div class="timeline-card-meta">
+                <span class="timeline-day">Dag 11</span>
+                <span class="timeline-dates">14 augustus</span>
+                <div class="timeline-tags"><span class="ttag ttag-rijdag">Vertrek</span></div>
+              </div>
+              <div class="timeline-place">Palermo ✈ Rotterdam</div>
+              <div class="timeline-desc">Laatste espresso · vliegveld Falcone-Borsellino · 19:55 vlucht naar Rotterdam, aankomst 22:40</div>
+              <div class="drive-badge">🚗 ~30 min naar vliegveld</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── BUDGET ─── -->
+  <section class="budget-section">
+    <div class="budget-card">
+      <h2>Budget overzicht</h2>
+      <div class="budget-card-sub">2 personen · 13 dagen Sicilië</div>
+      <div class="budget-rows">
+        <div class="budget-row"><span class="budget-row-label">✈ Heenvlucht RTM→CTA</span><span class="budget-row-value confirmed">€301,17 ✓</span></div>
+        <div class="budget-row"><span class="budget-row-label">✈ Terugvlucht PMO→RTM</span><span class="budget-row-value confirmed">€503,27 ✓</span></div>
+        <div class="budget-row"><span class="budget-row-label">🅿 Parking Rotterdam · 13 dgn</span><span class="budget-row-value confirmed">€113,00 ✓</span></div>
+        <div class="budget-row"><span class="budget-row-label">🏨 Verblijf · 10 nachten</span><span class="budget-row-value">€980–1.380</span></div>
+        <div class="budget-row"><span class="budget-row-label">🚗 Huurauto + brandstof + tol</span><span class="budget-row-value">€470–690</span></div>
+        <div class="budget-row"><span class="budget-row-label">🍝 Eten & drinken</span><span class="budget-row-value">€550–880</span></div>
+        <div class="budget-row"><span class="budget-row-label">🌋 Activiteiten (Etna, boot, entrees)</span><span class="budget-row-value">€150–250</span></div>
+        <div class="budget-row"><span class="budget-row-label">📋 Diversen</span><span class="budget-row-value">€100–150</span></div>
+      </div>
+      <div class="budget-total-row">
+        <div>
+          <div class="budget-total-label">Realistisch totaalbudget</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px">Waarvan al geboekt: €917,44 &nbsp;·&nbsp; Per persoon: ±€1.600–2.000</div>
+        </div>
+        <div class="budget-total-amount">±€3.200–4.000</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ─── MODALS ─── -->
+
+<!-- VLUCHT HV5613 -->
+<div class="modal-overlay" id="modal-flight-hv5613" onclick="closeModal(event, 'flight-hv5613')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'flight-hv5613')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Heenvlucht · Transavia · <span style="color:var(--green);font-weight:500">✓ geboekt</span></div>
+      <div class="modal-title">HV5613</div>
+      <div class="modal-subtitle">Rotterdam → Catania · Zondag 2 augustus 2026</div>
+    </div>
+    <div class="modal-body" style="padding-top:20px">
+
+      <div style="background:var(--ocean);border-radius:14px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+        <div style="flex:1;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:white;line-height:1">RTM</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px">Rotterdam The Hague</div>
+          <div style="font-size:22px;font-weight:600;color:white;margin-top:8px">15:30</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div style="width:100%;height:1px;background:rgba(255,255,255,0.2);position:relative">
+            <div style="position:absolute;right:-4px;top:-6px;color:rgba(255,255,255,0.4);font-size:10px">›</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5)">2u 45m · Direct</div>
+          <div id="dot-hv5613" class="live-dot gray" style="margin-top:2px"></div>
+          <div id="status-hv5613" style="font-size:10px;color:rgba(255,255,255,0.45);text-align:center;max-width:120px;line-height:1.4"></div>
+        </div>
+        <div style="flex:1;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:white;line-height:1">CTA</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px">Catania Fontanarossa</div>
+          <div style="font-size:22px;font-weight:600;color:white;margin-top:8px">18:15</div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Vluchtdetails</div>
+        <div class="modal-info-row"><span class="modal-info-label">Vluchtnummer</span><span class="modal-info-value">HV5613</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Maatschappij</span><span class="modal-info-value">Transavia</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Datum</span><span class="modal-info-value">Zondag 2 augustus 2026</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Vertrek</span><span class="modal-info-value">15:30 · Rotterdam (RTM)</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Aankomst</span><span class="modal-info-value">18:15 · Catania (CTA)</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Duur</span><span class="modal-info-value">2u 45m · Direct</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Passagiers</span><span class="modal-info-value">2 · incl. ruimbagage</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Prijs</span><span class="modal-info-value">€301,17</span></div>
+      </div>
+
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" href="https://www.flightradar24.com/data/flights/hv5613" target="_blank">📡 Volg live op Flightradar24</a>
+        <a class="modal-btn modal-btn-secondary" href="https://flightaware.com/live/flight/HV5613" target="_blank">✈ FlightAware</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'flight-hv5613')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VLUCHT HV5640 -->
+<div class="modal-overlay" id="modal-flight-hv5640" onclick="closeModal(event, 'flight-hv5640')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'flight-hv5640')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Terugvlucht · Transavia · <span style="color:var(--green);font-weight:500">✓ geboekt</span></div>
+      <div class="modal-title">HV5640</div>
+      <div class="modal-subtitle">Palermo → Rotterdam · Vrijdag 14 augustus 2026</div>
+    </div>
+    <div class="modal-body" style="padding-top:20px">
+
+      <div style="background:var(--terra);border-radius:14px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+        <div style="flex:1;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:white;line-height:1">PMO</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px">Falcone-Borsellino</div>
+          <div style="font-size:22px;font-weight:600;color:white;margin-top:8px">19:55</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div style="width:100%;height:1px;background:rgba(255,255,255,0.2);position:relative">
+            <div style="position:absolute;right:-4px;top:-6px;color:rgba(255,255,255,0.4);font-size:10px">›</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5)">2u 45m · Direct</div>
+          <div id="dot-hv5640" class="live-dot gray" style="margin-top:2px"></div>
+          <div id="status-hv5640" style="font-size:10px;color:rgba(255,255,255,0.45);text-align:center;max-width:120px;line-height:1.4"></div>
+        </div>
+        <div style="flex:1;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:white;line-height:1">RTM</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px">Rotterdam The Hague</div>
+          <div style="font-size:22px;font-weight:600;color:white;margin-top:8px">22:40</div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Vluchtdetails</div>
+        <div class="modal-info-row"><span class="modal-info-label">Vluchtnummer</span><span class="modal-info-value">HV5640</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Maatschappij</span><span class="modal-info-value">Transavia</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Datum</span><span class="modal-info-value">Vrijdag 14 augustus 2026</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Vertrek</span><span class="modal-info-value">19:55 · Palermo (PMO)</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Aankomst</span><span class="modal-info-value">22:40 · Rotterdam (RTM)</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Duur</span><span class="modal-info-value">2u 45m · Direct</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Passagiers</span><span class="modal-info-value">2 · incl. ruimbagage</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Prijs</span><span class="modal-info-value">€503,27</span></div>
+      </div>
+
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-terra" href="https://www.flightradar24.com/data/flights/hv5640" target="_blank">📡 Volg live op Flightradar24</a>
+        <a class="modal-btn modal-btn-secondary" href="https://flightaware.com/live/flight/HV5640" target="_blank">✈ FlightAware</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'flight-hv5640')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-catania" onclick="closeModal(event, 'catania')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'catania')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Verblijf · 3 nachten · 2–5 augustus · <span style="color:var(--green);font-weight:500">✓ geboekt</span></div>
+      <div class="modal-title">Catania</div>
+      <div class="modal-subtitle">Dag 1–3 · Aankomststad · Sicilië's tweede stad</div>
+    </div>
+    <div class="modal-photos">
+      <div class="modal-photo-grid">
+        <div class="modal-photo-main"><img src="Verblijf 1/0e1587db-df0a-45be-92af-00631773b883.avif" alt="Verblijf Catania" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><img src="Verblijf 1/3fc0f02b-903b-4362-a688-bd3bebeb169b.avif" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="modal-photo-thumb"><img src="Verblijf 1/5eb55ccf-fb66-4f81-89b0-edea9f3c2aaa.avif" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        </div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><img src="Verblijf 1/8b3c74cc-c0c9-43fb-9ecf-74280db1408c.avif" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+          <div class="modal-photo-thumb"><img src="Verblijf 1/f57ead14-f8c3-4afe-9268-5d425758e91c.avif" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Verblijfgegevens</div>
+        <div class="modal-info-row"><span class="modal-info-label">Adres</span><span class="modal-info-value">Via Marchese di Casalotto, 67<br>Catania, Sicilia 95131</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-in</span><span class="modal-info-value">Zo 2 augustus · 14:00</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-out</span><span class="modal-info-value">Wo 5 augustus · 11:00</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Nachten</span><span class="modal-info-value">3</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Bevestigingscode</span><span class="modal-info-value" style="font-family:monospace;letter-spacing:0.05em">HMYNNAFB2P</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Auto ophalen</span><span class="modal-info-value">Catania Fontanarossa Airport</span></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Highlights</div>
+        <div class="modal-highlights">
+          <div class="modal-highlight">🏛️ Piazza del Duomo & barokke kathedraal</div>
+          <div class="modal-highlight">🐟 Vismarkt (La Pescheria) — 's ochtends vroeg</div>
+          <div class="modal-highlight">🌊 Strand Lido di Plaja — op de fiets</div>
+          <div class="modal-highlight">🍝 Pasta alla Norma — typisch Catanees</div>
+          <div class="modal-highlight">🍧 Granita con brioche — ontbijt van Sicilianen</div>
+          <div class="modal-highlight">⛪ Benedictijns klooster (UNESCO)</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" href="https://www.google.com/maps/dir/?api=1&destination=Via+Marchese+di+Casalotto+67+Catania+Sicilia" target="_blank">🗺 Route naar verblijf</a>
+        <a class="modal-btn modal-btn-secondary" href="https://www.google.com/maps/search/Via+Marchese+di+Casalotto+67+Catania" target="_blank">📍 Bekijk op Maps</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'catania')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-taormina" onclick="closeModal(event, 'taormina')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'taormina')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Verblijf · 2 nachten · 5–7 augustus</div>
+      <div class="modal-title">Taormina</div>
+      <div class="modal-subtitle">Dag 3 & 4 · Dagtocht Etna inbegrepen</div>
+    </div>
+    <div class="modal-photos">
+      <div class="modal-photo-grid">
+        <div class="modal-photo-main"><div class="modal-photo-placeholder">🏟️</div></div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🌋</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🏖️</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Verblijf</div>
+        <div class="modal-info-row"><span class="modal-info-label">Adres</span><span class="modal-info-value" style="color:var(--muted);font-style:italic">Nog in te vullen</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-in</span><span class="modal-info-value">5 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-out</span><span class="modal-info-value">7 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Nachten</span><span class="modal-info-value">2</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Tip parkeren</span><span class="modal-info-value">Buiten centrum (Lumbi parking)</span></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Highlights</div>
+        <div class="modal-highlights">
+          <div class="modal-highlight">🏟️ Grieks theater met Etna-uitzicht</div>
+          <div class="modal-highlight">🌋 Etna wandeling via Rifugio Sapienza</div>
+          <div class="modal-highlight">🏖️ Isola Bella — prachtigste strand van Sicilië</div>
+          <div class="modal-highlight">🛍️ Corso Umberto — winkelstraat</div>
+          <div class="modal-highlight">🌅 Zonsondergang met Etna-silhouet</div>
+          <div class="modal-highlight">🚠 Optioneel: kabelbaan omhoog Etna</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" href="https://www.google.com/maps/search/Taormina+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="modal-btn modal-btn-terra" href="https://www.google.com/maps/dir//Rifugio+Sapienza+Etna" target="_blank">🌋 Route Etna</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'taormina')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-milazzo" onclick="closeModal(event, 'milazzo')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'milazzo')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Verblijf · 2 nachten · 7–9 augustus</div>
+      <div class="modal-title">Milazzo</div>
+      <div class="modal-subtitle">Dag 5 & 6 · Vertrekpunt Eolische eilanden</div>
+    </div>
+    <div class="modal-photos">
+      <div class="modal-photo-grid">
+        <div class="modal-photo-main"><div class="modal-photo-placeholder">⛴️</div></div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🌊</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">♨️</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Verblijf</div>
+        <div class="modal-info-row"><span class="modal-info-label">Adres</span><span class="modal-info-value" style="color:var(--muted);font-style:italic">Nog in te vullen</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-in</span><span class="modal-info-value">7 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-out</span><span class="modal-info-value">9 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Boot</span><span class="modal-info-value">Liberty Lines Hydrofoil</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Reistijd boot</span><span class="modal-info-value">~45 min naar Lipari</span></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Eolische eilanden — dagtocht</div>
+        <div class="modal-highlights">
+          <div class="modal-highlight">⛴ Hydrofoil vanuit Milazzo haven</div>
+          <div class="modal-highlight">🏖️ Lipari — kristalhelder zwemwater</div>
+          <div class="modal-highlight">♨️ Vulcano — zwavelpoelen (modder)</div>
+          <div class="modal-highlight">🎣 Visrestaurant Milazzo — avond</div>
+          <div class="modal-highlight">⚠️ Tickets Liberty Lines vroeg boeken!</div>
+          <div class="modal-highlight">🏰 Kasteel van Milazzo — optioneel</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" href="https://www.google.com/maps/search/Milazzo+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="modal-btn modal-btn-terra" href="https://www.libertylines.it" target="_blank">⛴ Liberty Lines</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'milazzo')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-cefalù" onclick="closeModal(event, 'cefalù')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'cefalù')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Verblijf · 2 nachten · 9–11 augustus</div>
+      <div class="modal-title">Cefalù</div>
+      <div class="modal-subtitle">Dag 7 & 8 · Strandstad met Normandische kathedraal</div>
+    </div>
+    <div class="modal-photos">
+      <div class="modal-photo-grid">
+        <div class="modal-photo-main"><div class="modal-photo-placeholder">⛪</div></div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🏖️</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🌅</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Verblijf</div>
+        <div class="modal-info-row"><span class="modal-info-label">Adres</span><span class="modal-info-value" style="color:var(--muted);font-style:italic">Nog in te vullen</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-in</span><span class="modal-info-value">9 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-out</span><span class="modal-info-value">11 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Nachten</span><span class="modal-info-value">2</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Tip parkeren</span><span class="modal-info-value">Buiten historisch centrum</span></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Highlights</div>
+        <div class="modal-highlights">
+          <div class="modal-highlight">⛪ Kathedraal — Byzantijnse mozaïeken (12e eeuw)</div>
+          <div class="modal-highlight">🏖️ Breed stadsstrand — top voor kinderen</div>
+          <div class="modal-highlight">⛰️ La Rocca — wandelpad bij zonsondergang</div>
+          <div class="modal-highlight">🐟 Verse vis in het historisch centrum</div>
+          <div class="modal-highlight">📸 Mooiste foto-locatie van de route</div>
+          <div class="modal-highlight">🚶 Compact — alles te voet bereikbaar</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" href="https://www.google.com/maps/search/Cefalù+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="modal-btn modal-btn-terra" href="https://www.google.com/maps/dir//La+Rocca+Cefalù" target="_blank">⛰️ Route La Rocca</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'cefalù')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-palermo" onclick="closeModal(event, 'palermo')">
+  <div class="modal" style="position:relative">
+    <div class="modal-drag-handle"></div>
+    <div class="modal-close" onclick="closeModal(null,'palermo')">✕</div>
+    <div class="modal-header">
+      <div class="modal-location-type">Verblijf · 2 nachten · 11–13 augustus</div>
+      <div class="modal-title">Palermo</div>
+      <div class="modal-subtitle">Dag 9 & 10 · Eindbestemming · Vertrek 14 aug 19:55</div>
+    </div>
+    <div class="modal-photos">
+      <div class="modal-photo-grid">
+        <div class="modal-photo-main"><div class="modal-photo-placeholder">🕌</div></div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🥐</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+        <div class="modal-photo-side">
+          <div class="modal-photo-thumb"><div class="modal-photo-placeholder" style="font-size:18px">🎭</div></div>
+          <div class="modal-photo-add">＋</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Verblijf</div>
+        <div class="modal-info-row"><span class="modal-info-label">Adres</span><span class="modal-info-value" style="color:var(--muted);font-style:italic">Nog in te vullen</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-in</span><span class="modal-info-value">11 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Check-out</span><span class="modal-info-value">13 augustus</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Auto inleveren</span><span class="modal-info-value">Palermo — check locatie bij boeking</span></div>
+        <div class="modal-info-row"><span class="modal-info-label">Vliegveld</span><span class="modal-info-value">Falcone-Borsellino (PMO) · ~30 min</span></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Highlights</div>
+        <div class="modal-highlights">
+          <div class="modal-highlight">⛪ Cappella Palatina — goudmozaïeken</div>
+          <div class="modal-highlight">🥘 Ballarò-markt — street food paradijs</div>
+          <div class="modal-highlight">🕌 Kathedraal van Palermo (Arabisch-Normandisch)</div>
+          <div class="modal-highlight">📍 Quattro Canti — hart van de stad</div>
+          <div class="modal-highlight">🍮 Cannolo & cassata — typisch Palermitaans</div>
+          <div class="modal-highlight">✈️ Vertrek 14 aug om 19:55 uur</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-primary" href="https://www.google.com/maps/search/Palermo+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="modal-btn modal-btn-terra" href="https://www.google.com/maps/dir//Palermo+Airport" target="_blank">✈️ Route vliegveld</a>
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal(null,'palermo')">Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Sicilië Roadtrip · 2–14 augustus 2026 · Kristiaan &amp; vriendin
+</div>
+
+<script>
+function openModal(id) {
+  const overlay = document.getElementById('modal-' + id);
+  if (overlay) { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+}
+function closeModal(event, id) {
+  if (event && event.target !== event.currentTarget) return;
+  const overlay = document.getElementById('modal-' + id);
+  if (overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.active').forEach(function(el) {
+      el.classList.remove('active'); document.body.style.overflow = '';
+    });
+  }
+});
+
+/* ── LIVE FLIGHT STATUS ── */
+const FLIGHTS = [
+  {
+    id: 'hv5613',
+    number: 'HV5613',
+    depDate: new Date('2026-08-02T15:30:00+02:00'),
+    arrDate: new Date('2026-08-02T18:15:00+02:00'),
+    fr24: 'https://www.flightradar24.com/data/flights/hv5613',
+    fa:   'https://flightaware.com/live/flight/HV5613'
+  },
+  {
+    id: 'hv5640',
+    number: 'HV5640',
+    depDate: new Date('2026-08-14T19:55:00+02:00'),
+    arrDate: new Date('2026-08-14T22:40:00+02:00'),
+    fr24: 'https://www.flightradar24.com/data/flights/hv5640',
+    fa:   'https://flightaware.com/live/flight/HV5640'
+  }
+];
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function formatCountdown(ms) {
+  if (ms <= 0) return null;
+  const s = Math.floor(ms / 1000);
+  const d = Math.floor(s / 86400);
+  const h = Math.floor((s % 86400) / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  if (d > 0) return d + 'd ' + pad(h) + 'u ' + pad(m) + 'm';
+  return pad(h) + 'u ' + pad(m) + 'm ' + pad(s % 60) + 's';
+}
+
+function updateFlightStatus() {
+  const now = new Date();
+  FLIGHTS.forEach(function(f) {
+    const dot = document.getElementById('dot-' + f.id);
+    const statusEl = document.getElementById('status-' + f.id);
+    if (!dot || !statusEl) return;
+
+    const msToDepart = f.depDate - now;
+    const msToArrive = f.arrDate - now;
+    const dayBefore = f.depDate - now < 24 * 3600 * 1000 && msToDepart > 0;
+    const inFlight  = msToDepart <= 0 && msToArrive > 0;
+    const landed    = msToArrive <= 0;
+
+    if (landed) {
+      dot.className = 'live-dot gray';
+      statusEl.textContent = 'Geland ✓ — vlucht afgerond';
+    } else if (inFlight) {
+      dot.className = 'live-dot';
+      const pct = Math.round(((now - f.depDate) / (f.arrDate - f.depDate)) * 100);
+      statusEl.textContent = '✈ In de lucht · aankomst over ' + formatCountdown(msToArrive) + ' · ' + pct + '% van route';
+    } else if (dayBefore) {
+      dot.className = 'live-dot orange';
+      statusEl.textContent = '⏳ Vertrekt over ' + formatCountdown(msToDepart) + ' — check live tracking';
+    } else {
+      dot.className = 'live-dot gray';
+      const cd = formatCountdown(msToDepart);
+      statusEl.textContent = cd ? 'Vertrek over ' + cd + ' · tracking actief op reisdag' : 'Gepland';
+    }
+  });
+}
+
+updateFlightStatus();
+setInterval(updateFlightStatus, 1000);
+</script>
+</body>
+</html>
