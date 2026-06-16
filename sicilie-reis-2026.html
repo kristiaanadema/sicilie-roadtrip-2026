@@ -45,7 +45,14 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 20px; position: relative; z-index: 1; }
 .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(52px, 9vw, 96px); font-weight: 700; line-height: 1.0; color: white; margin-bottom: 12px; position: relative; z-index: 1; }
 .hero h1 em { font-style: italic; font-weight: 400; color: var(--terra-light); }
-.hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 48px; position: relative; z-index: 1; letter-spacing: 0.02em; }
+.hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 32px; position: relative; z-index: 1; letter-spacing: 0.02em; }
+
+.countdown { display: flex; gap: 20px; margin-bottom: 40px; position: relative; z-index: 1; }
+.countdown-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.countdown-num { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700; color: white; line-height: 1; min-width: 2ch; text-align: center; }
+.countdown-label { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+.countdown-sep { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4vw, 40px); color: rgba(255,255,255,0.15); line-height: 1; padding-top: 4px; }
+.countdown-done { font-size: 14px; color: var(--terra-light); font-style: italic; font-family: 'Playfair Display', serif; }
 .hero-route { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1; }
 .hero-route-city { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); }
 .hero-route-city.active { color: var(--terra-light); }
@@ -343,7 +350,18 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
   <div class="hero-bg-circle"></div>
   <div class="hero-eyebrow">Reisplan · 2 personen · Augustus 2026</div>
   <h1>Sicilië<br><em>Roadtrip</em></h1>
-  <p class="hero-sub">2 augustus — 14 augustus &nbsp;·&nbsp; 13 dagen &nbsp;·&nbsp; Kristiaan &amp; vriendin</p>
+  <p class="hero-sub">2 augustus — 14 augustus &nbsp;·&nbsp; 13 dagen &nbsp;·&nbsp; Kristiaan &amp; Esmée</p>
+
+  <div class="countdown" id="countdown">
+    <div class="countdown-block"><span class="countdown-num" id="cd-d">--</span><span class="countdown-label">dagen</span></div>
+    <div class="countdown-sep">·</div>
+    <div class="countdown-block"><span class="countdown-num" id="cd-h">--</span><span class="countdown-label">uren</span></div>
+    <div class="countdown-sep">·</div>
+    <div class="countdown-block"><span class="countdown-num" id="cd-m">--</span><span class="countdown-label">minuten</span></div>
+    <div class="countdown-sep">·</div>
+    <div class="countdown-block"><span class="countdown-num" id="cd-s">--</span><span class="countdown-label">seconden</span></div>
+  </div>
+
   <div class="hero-route">
     <span class="hero-route-city active">✈ RTM</span>
     <span class="hero-route-arrow">→</span>
@@ -1140,6 +1158,28 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });
+
+/* ── COUNTDOWN ── */
+(function() {
+  const target = new Date('2026-08-02T15:30:00+02:00');
+  function tick() {
+    const diff = target - new Date();
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML = '<span class="countdown-done">Bon voyage! ✈</span>';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
 
 /* ── LIVE FLIGHT STATUS ── */
 const FLIGHTS = [
