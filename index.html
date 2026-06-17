@@ -34,13 +34,33 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
   padding: 80px 64px 72px;
   position: relative; overflow: hidden;
 }
-.hero-bg-circle {
-  position: absolute; border-radius: 50%;
-  background: rgba(255,255,255,0.03);
+.hero-photo {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=1600&q=80&fit=crop');
+  background-size: cover; background-position: center 40%;
+  z-index: 0;
 }
-.hero-bg-circle:nth-child(1) { width: 600px; height: 600px; top: -200px; right: -150px; }
-.hero-bg-circle:nth-child(2) { width: 400px; height: 400px; bottom: -100px; left: 20%; background: rgba(196,98,45,0.12); }
-.hero-bg-circle:nth-child(3) { width: 200px; height: 200px; top: 40%; left: -50px; background: rgba(255,255,255,0.02); }
+.hero-photo::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(15,35,50,0.97) 0%, rgba(15,35,50,0.75) 50%, rgba(15,35,50,0.4) 100%);
+}
+.hero-sicily-svg {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-55%);
+  width: clamp(280px, 40vw, 520px); opacity: 0.07; z-index: 1;
+  pointer-events: none;
+}
+.hero-weather {
+  position: absolute; top: 32px; right: 40px; z-index: 2;
+  background: rgba(255,255,255,0.08); border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  backdrop-filter: blur(8px);
+}
+.hero-weather-icon { font-size: 22px; line-height: 1; }
+.hero-weather-temp { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: white; line-height: 1; }
+.hero-weather-info { display: flex; flex-direction: column; gap: 1px; }
+.hero-weather-label { font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.hero-weather-desc { font-size: 11px; color: rgba(255,255,255,0.65); }
 
 .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--terra-light); margin-bottom: 20px; position: relative; z-index: 1; }
 .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(52px, 9vw, 96px); font-weight: 700; line-height: 1.0; color: white; margin-bottom: 12px; position: relative; z-index: 1; }
@@ -345,14 +365,50 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
 <!-- ─── HERO ─── -->
 <section class="hero">
-  <div class="hero-bg-circle"></div>
-  <div class="hero-bg-circle"></div>
-  <div class="hero-bg-circle"></div>
-  <div class="hero-eyebrow">Reisplan · 2 personen · Augustus 2026</div>
-  <h1>Sicilië<br><em>Roadtrip</em></h1>
-  <p class="hero-sub">2 augustus — 14 augustus &nbsp;·&nbsp; 13 dagen &nbsp;·&nbsp; Kristiaan &amp; Esmée</p>
+  <div class="hero-photo"></div>
 
-  <div class="countdown" id="countdown">
+  <!-- Sicilië kaart SVG -->
+  <svg class="hero-sicily-svg" viewBox="0 0 520 390" xmlns="http://www.w3.org/2000/svg" fill="white">
+    <!-- Hoofdeiland -->
+    <path d="M 415,28 C 408,35 400,48 398,62 C 395,78 402,95 400,112 C 398,130 394,148 392,165 C 390,180 388,195 383,208 C 377,222 370,234 360,248 C 350,262 338,272 324,275 C 310,278 296,272 280,270 C 264,268 248,268 232,264 C 216,260 200,252 184,246 C 168,240 152,235 136,228 C 120,221 105,212 90,202 C 75,192 60,180 48,168 C 36,156 28,142 28,128 C 28,114 36,100 46,90 C 56,80 68,74 78,64 C 88,54 96,42 108,34 C 120,26 134,22 148,20 C 162,18 176,20 190,20 C 204,20 218,18 232,17 C 246,16 260,16 274,18 C 288,20 302,24 316,26 C 330,28 344,28 358,27 C 372,26 386,24 400,24 Z"/>
+    <!-- Verfijnde kust oost -->
+    <path d="M 400,24 C 405,24 410,25 415,28 C 418,35 416,45 414,55 C 412,65 408,74 406,84 C 404,94 403,104 402,114 C 401,124 400,134 399,144 C 398,154 397,164 394,172 C 391,180 386,188 382,196 C 378,204 374,212 368,220 C 362,228 355,236 347,244 C 339,252 330,258 320,263 C 310,268 300,270 290,271 C 280,272 270,270 260,268 C 250,266 240,263 230,260 C 220,257 210,253 200,249 C 190,245 180,240 170,235 C 160,230 150,224 140,218 C 130,212 120,205 110,198 C 100,191 90,183 82,174 C 74,165 68,154 65,143 C 62,132 62,120 66,110 C 70,100 77,92 85,84 C 93,76 102,70 110,62 C 118,54 124,44 132,37 C 140,30 150,25 160,22 C 170,19 180,19 190,19 C 200,19 210,20 220,20 C 230,20 240,19 250,19 C 260,19 270,19 280,20 C 290,21 300,23 310,25 C 320,27 330,28 340,27 C 350,26 360,24 370,23 C 380,22 390,22 400,24 Z" opacity="0.6"/>
+    <!-- Etna -->
+    <circle cx="385" cy="115" r="18" opacity="0.9"/>
+    <polygon points="385,88 373,118 397,118" fill="rgba(0,0,0,0.3)"/>
+    <!-- Eolische eilanden -->
+    <circle cx="318" cy="22" r="5"/>
+    <circle cx="306" cy="16" r="4"/>
+    <circle cx="294" cy="20" r="3.5"/>
+    <circle cx="330" cy="14" r="3"/>
+    <circle cx="342" cy="18" r="3.5"/>
+    <circle cx="320" cy="8" r="3"/>
+    <circle cx="308" cy="4" r="2.5"/>
+    <!-- Steden punten -->
+    <circle cx="148" cy="38" r="5" fill="rgba(232,137,106,1)"/> <!-- Palermo -->
+    <circle cx="392" cy="125" r="4.5" fill="rgba(232,137,106,1)"/> <!-- Catania -->
+    <circle cx="397" cy="85" r="4" fill="rgba(232,137,106,1)"/> <!-- Taormina -->
+    <circle cx="186" cy="38" r="3.5" fill="rgba(232,137,106,1)"/> <!-- Cefalù -->
+    <circle cx="345" cy="255" r="3.5" fill="rgba(232,137,106,1)"/> <!-- Palermo via route -->
+  </svg>
+
+  <!-- Weer widget -->
+  <div class="hero-weather" id="weather-widget">
+    <div class="hero-weather-icon" id="w-icon">⏳</div>
+    <div class="hero-weather-info">
+      <div class="hero-weather-label">Catania nu</div>
+      <div style="display:flex;align-items:baseline;gap:5px">
+        <div class="hero-weather-temp" id="w-temp">--°</div>
+        <div class="hero-weather-desc" id="w-desc">laden…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-eyebrow" style="position:relative;z-index:2">Reisplan · 2 personen · Augustus 2026</div>
+  <h1 style="position:relative;z-index:2">Sicilië<br><em>Roadtrip</em></h1>
+  <p class="hero-sub" style="position:relative;z-index:2">2 augustus — 14 augustus &nbsp;·&nbsp; 13 dagen &nbsp;·&nbsp; Kristiaan &amp; Esmée</p>
+
+  <div class="countdown" id="countdown" style="position:relative;z-index:2">
     <div class="countdown-block"><span class="countdown-num" id="cd-d">--</span><span class="countdown-label">dagen</span></div>
     <div class="countdown-sep">·</div>
     <div class="countdown-block"><span class="countdown-num" id="cd-h">--</span><span class="countdown-label">uren</span></div>
@@ -362,7 +418,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
     <div class="countdown-block"><span class="countdown-num" id="cd-s">--</span><span class="countdown-label">seconden</span></div>
   </div>
 
-  <div class="hero-route">
+  <div class="hero-route" style="position:relative;z-index:2">
     <span class="hero-route-city active">✈ RTM</span>
     <span class="hero-route-arrow">→</span>
     <span class="hero-route-city active">Catania</span>
@@ -1158,6 +1214,33 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });
+
+/* ── WEER ── */
+(function() {
+  const WMO = {
+    0:'Helder',1:'Vrijwel helder',2:'Gedeeltelijk bewolkt',3:'Bewolkt',
+    45:'Mistig',48:'Mistig',51:'Lichte motregen',53:'Motregen',55:'Zware motregen',
+    61:'Lichte regen',63:'Regen',65:'Zware regen',71:'Lichte sneeuw',73:'Sneeuw',
+    75:'Zware sneeuw',80:'Regenbuien',81:'Regenbuien',82:'Zware buien',
+    95:'Onweer',96:'Onweer met hagel',99:'Zwaar onweer'
+  };
+  const ICONS = {
+    0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+    51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'⛈️',
+    71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',
+    95:'⛈️',96:'⛈️',99:'⛈️'
+  };
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5&longitude=15.09&current=temperature_2m,weather_code&timezone=Europe%2FRome')
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      const temp = Math.round(d.current.temperature_2m);
+      const code = d.current.weather_code;
+      document.getElementById('w-temp').textContent = temp + '°';
+      document.getElementById('w-desc').textContent = WMO[code] || 'Wisselvallig';
+      document.getElementById('w-icon').textContent = ICONS[code] || '🌡️';
+    })
+    .catch(function(){ document.getElementById('weather-widget').style.display='none'; });
+})();
 
 /* ── COUNTDOWN ── */
 (function() {
