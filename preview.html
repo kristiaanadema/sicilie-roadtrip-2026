@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sicilia · Roadtrip MMXXVI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --matcha:#8FB78F; --pistachio:#CBE6C7; --azure:#B4CCCF;
+  --indigo:#28536B; --indigo-deep:#16323F; --orchid:#F3A5BC; --peach:#FFC49B;
+  --cream:#F6F4EC; --paper:#FFFFFF; --ink:#16323F; --mid:#3d5c6a; --muted:#8aa3ad;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --serif:'Cormorant Garamond',serif; --sans:'Nunito',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* GRAIN + PROGRESS */
+.grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.045;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:9100;
+  background:linear-gradient(90deg,var(--orchid),var(--peach),var(--matcha),var(--azure));transition:width .1s linear}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:8000;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;transform:translateY(-110%);transition:transform .6s var(--ease);
+  background:rgba(246,244,236,.8);backdrop-filter:blur(14px);border-bottom:.5px solid rgba(40,83,107,.1)}
+.nav.show{transform:none}
+.nav-brand{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.01em}
+.nav-brand em{font-style:italic;color:var(--indigo)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--mid);position:relative;padding:4px 0}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--indigo);transition:width .4s var(--ease)}
+.nav-links a:hover::after{width:100%}
+.nav-cd{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--indigo)}
+@media(max-width:780px){.nav{padding:14px 20px}.nav-links a:not(.nav-cd){display:none}}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-layer{position:absolute;inset:-8%;will-change:transform}
+.hero-photo{background:url('image-1781718896018.webp') center 55%/cover no-repeat}
+.hero-veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(22,50,63,.92) 0%,rgba(22,50,63,.45) 38%,rgba(22,50,63,.15) 70%,rgba(22,50,63,.35) 100%)}
+.hero-inner{position:relative;z-index:3;width:100%;padding:0 clamp(24px,6vw,80px) clamp(48px,7vh,84px)}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:22px;opacity:0;transform:translateY(20px);
+  transition:all 1s var(--ease) .2s;color:var(--peach);font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase}
+.hero-eyebrow .ln{width:46px;height:1px;background:var(--peach);opacity:.6}
+.loaded .hero-eyebrow{opacity:1;transform:none}
+.hero h1{font-family:var(--serif);color:#fff;font-weight:600;line-height:.86;letter-spacing:-.02em;
+  font-size:clamp(88px,19vw,260px);margin-bottom:10px}
+.hero h1 .row{display:block;overflow:hidden}
+.hero h1 .row span{display:block;transform:translateY(105%);transition:transform 1.1s var(--ease)}
+.hero h1 .row:nth-child(2) span{transition-delay:.08s}
+.loaded .hero h1 .row span{transform:none}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--peach)}
+.hero-sub{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;color:rgba(255,255,255,.82);font-size:15px;font-weight:500;
+  opacity:0;transform:translateY(20px);transition:all 1s var(--ease) .5s}
+.loaded .hero-sub{opacity:1;transform:none}
+.hero-sub .dot{width:5px;height:5px;border-radius:50%;background:var(--peach)}
+
+/* hero side widgets */
+.hero-widgets{position:absolute;top:clamp(80px,12vh,120px);right:clamp(24px,6vw,80px);z-index:4;display:flex;flex-direction:column;gap:12px;align-items:flex-end;
+  opacity:0;transform:translateY(-16px);transition:all 1s var(--ease) .7s}
+.loaded .hero-widgets{opacity:1;transform:none}
+.glass{background:rgba(255,255,255,.1);border:.5px solid rgba(255,255,255,.22);backdrop-filter:blur(12px);border-radius:16px}
+.weather-chip{display:flex;align-items:center;gap:12px;padding:12px 18px}
+.weather-chip .ic{font-size:26px}
+.weather-chip .tp{font-family:var(--serif);font-size:26px;font-weight:600;color:#fff;line-height:1}
+.weather-chip .lb{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.weather-chip .ds{font-size:11px;color:rgba(255,255,255,.8)}
+
+/* countdown */
+.hero-cd{display:flex;gap:8px;padding:14px 18px}
+.hero-cd .blk{text-align:center;min-width:48px}
+.hero-cd .n{font-family:var(--serif);font-size:34px;font-weight:600;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
+.hero-cd .l{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:4px}
+.hero-cd .sep{font-family:var(--serif);font-size:30px;color:rgba(255,255,255,.3);align-self:flex-start;line-height:1.1}
+
+.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(255,255,255,.7);font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:0;transition:opacity 1s ease 1.2s}
+.loaded .scroll-cue{opacity:1}
+.scroll-cue .bar{width:1px;height:46px;background:linear-gradient(to bottom,rgba(255,255,255,.6),transparent);animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:780px){.hero-widgets{top:auto;bottom:auto;position:static;flex-direction:row;flex-wrap:wrap;padding:0 24px;margin-top:0}.scroll-cue{display:none}
+  .hero-inner{padding-bottom:28px}.hero-cd .n{font-size:26px}.hero-cd .blk{min-width:38px}}
+
+/* MARQUEE */
+.marquee{background:var(--indigo-deep);color:#fff;padding:20px 0;overflow:hidden;white-space:nowrap;border-block:1px solid rgba(255,255,255,.08)}
+.marquee-track{display:inline-flex;gap:40px;animation:scroll-x 34s linear infinite;will-change:transform}
+.marquee-track span{font-family:var(--serif);font-size:26px;font-style:italic;display:inline-flex;align-items:center;gap:40px}
+.marquee-track span::after{content:'✦';color:var(--peach);font-style:normal;font-size:14px}
+@keyframes scroll-x{to{transform:translateX(-50%)}}
+
+/* SECTION SHELL */
+.sec{max-width:1180px;margin:0 auto;padding:clamp(80px,12vh,150px) clamp(24px,5vw,56px)}
+.sec-label{display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--indigo);margin-bottom:28px}
+.sec-label .num{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--orchid);letter-spacing:0}
+.sec-label .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(40,83,107,.3),transparent)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.lines .ln-m{overflow:hidden;display:block}
+.lines .ln-m>span{display:block;transform:translateY(110%);transition:transform 1s var(--ease)}
+.lines.in .ln-m>span{transform:none}
+.lines.in .ln-m:nth-child(2)>span{transition-delay:.09s}
+.lines.in .ln-m:nth-child(3)>span{transition-delay:.18s}
+
+/* INTRO */
+.intro-quote{font-family:var(--serif);font-size:clamp(30px,5vw,62px);font-weight:500;line-height:1.08;letter-spacing:-.01em;color:var(--ink);max-width:14ch}
+.intro-quote em{font-style:italic;color:var(--indigo)}
+.intro-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:end}
+.intro-text{font-size:16px;color:var(--mid);max-width:42ch;line-height:1.75}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:46px}
+.stat{padding:22px 0;border-top:1.5px solid rgba(40,83,107,.14)}
+.stat .n{font-family:var(--serif);font-size:clamp(44px,6vw,72px);font-weight:600;line-height:.9;color:var(--indigo);font-variant-numeric:tabular-nums}
+.stat .n .u{font-size:.4em;color:var(--orchid);margin-left:4px}
+.stat .l{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+@media(max-width:780px){.intro-grid{grid-template-columns:1fr;gap:32px}}
+
+/* FLIGHTS */
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.ticket{position:relative;background:var(--paper);border-radius:22px;padding:30px;cursor:pointer;
+  border:.5px solid rgba(40,83,107,.12);box-shadow:0 30px 60px -40px rgba(22,50,63,.4);
+  transform-style:preserve-3d;transition:box-shadow .4s var(--ease);overflow:hidden}
+.ticket::before{content:'';position:absolute;inset:0;border-radius:22px;opacity:0;transition:opacity .4s;pointer-events:none;
+  background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(255,196,155,.13),transparent 40%)}
+.ticket:hover::before{opacity:1}
+.ticket:hover{box-shadow:0 50px 90px -40px rgba(22,50,63,.55)}
+.tk-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}
+.tk-type{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.tk-num{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--muted)}
+.tk-air{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--mid)}
+.tk-air .d{width:7px;height:7px;border-radius:50%}
+.tk-route{display:flex;align-items:center;gap:16px;margin-bottom:6px}
+.tk-iata{font-family:var(--serif);font-size:clamp(40px,6vw,58px);font-weight:600;line-height:.9;letter-spacing:-.02em}
+.tk-path{flex:1;position:relative;height:30px}
+.tk-path svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tk-city{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:22px}
+.tk-perf{position:relative;height:1px;margin:0 -30px 22px;border-top:2px dashed rgba(40,83,107,.18)}
+.tk-perf::before,.tk-perf::after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--cream);border:.5px solid rgba(40,83,107,.12)}
+.tk-perf::before{left:-12px}.tk-perf::after{right:-12px}
+.tk-foot{display:flex;justify-content:space-between;align-items:flex-end}
+.tk-time .t{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1}
+.tk-time .dt{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.tk-price{text-align:right}
+.tk-price .p{font-family:var(--serif);font-size:24px;font-weight:600}
+.tk-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:4px 11px;border-radius:100px;margin-top:8px}
+.live-d{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.live-d.green{background:#46b06a;box-shadow:0 0 0 0 rgba(70,176,106,.5);animation:pls 2s infinite}
+.live-d.amber{background:#e0972f;animation:pls 2s infinite}
+@keyframes pls{0%{box-shadow:0 0 0 0 rgba(70,176,106,.45)}70%{box-shadow:0 0 0 8px rgba(70,176,106,0)}100%{box-shadow:0 0 0 0 rgba(70,176,106,0)}}
+.flight-extra{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  background:var(--paper);border:.5px solid rgba(40,83,107,.12);border-radius:18px;padding:18px 24px}
+.flight-extra .lft{font-size:13px}
+.flight-extra .lft strong{font-weight:700}
+.flight-extra .lft small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.flight-extra .pr{font-family:var(--serif);font-size:22px;font-weight:600}
+@media(max-width:780px){.flights{grid-template-columns:1fr}}
+
+/* JOURNEY (sticky map + scroll cards) */
+.journey{background:var(--indigo-deep);color:#fff;position:relative;overflow:hidden}
+.journey .sec{max-width:1240px}
+.journey .sec-label{color:var(--peach)}
+.journey .sec-label .ln{background:linear-gradient(90deg,rgba(255,255,255,.3),transparent)}
+.jr-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.jr-map-wrap{position:sticky;top:14vh;height:72vh;display:flex;align-items:center;justify-content:center}
+.jr-map{width:100%;max-width:560px}
+.jr-map svg{width:100%;height:auto;overflow:visible}
+.sicily-fill{fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.18);stroke-width:1.5}
+.route-line{fill:none;stroke:var(--peach);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 2.4s var(--ease)}
+.journey.draw .route-line{stroke-dashoffset:0}
+.city-dot{fill:rgba(255,255,255,.35);transition:all .5s var(--ease)}
+.city-dot.active{fill:var(--peach);r:9}
+.city-ring{fill:none;stroke:var(--peach);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .5s}
+.city-dot.active+.city-ring{opacity:.5;animation:ring 2s ease-out infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(3.2);opacity:0}}
+.city-lbl{fill:#fff;font-family:var(--sans);font-size:13px;font-weight:700;opacity:.35;transition:opacity .4s}
+.city-lbl.active{opacity:1}
+.plane{transition:transform 1s var(--ease);fill:#fff}
+.jr-counter{position:absolute;top:14vh;left:0;font-family:var(--serif);font-size:clamp(120px,20vw,260px);font-weight:600;
+  color:rgba(255,255,255,.04);line-height:1;pointer-events:none;font-style:italic}
+
+.jr-stops{display:flex;flex-direction:column;gap:14vh;padding:18vh 0}
+.stop{scroll-margin-top:30vh}
+.stop-idx{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--peach);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.stop-idx .ln{width:30px;height:1px;background:var(--peach);opacity:.5}
+.stop h3{font-family:var(--serif);font-size:clamp(38px,5.5vw,64px);font-weight:600;line-height:.98;letter-spacing:-.01em;margin-bottom:8px}
+.stop .nights{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:18px}
+.stop-photos{display:flex;gap:10px;margin-bottom:20px}
+.stop-photos .ph{flex:1;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.06);transform:translateY(20px);opacity:0;transition:all .8s var(--ease)}
+.stop.in .stop-photos .ph{transform:none;opacity:1}
+.stop.in .stop-photos .ph:nth-child(2){transition-delay:.1s}
+.stop.in .stop-photos .ph:nth-child(3){transition-delay:.2s}
+.stop-photos .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.stop-photos .ph:hover img{transform:scale(1.08)}
+.stop-desc{font-size:15px;color:rgba(255,255,255,.72);line-height:1.7;max-width:46ch;margin-bottom:18px}
+.stop-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.stag{font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:100px;background:rgba(255,255,255,.08);color:#fff}
+.stop-btn{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.03em;color:var(--indigo-deep);
+  background:var(--peach);padding:13px 22px;border-radius:100px;transition:transform .3s var(--ease),gap .3s var(--ease);border:none;cursor:pointer}
+.stop-btn:hover{transform:translateY(-2px);gap:14px}
+.stop-drive{margin-top:16px;font-size:12px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
+@media(max-width:880px){.jr-grid{grid-template-columns:1fr;gap:0}.jr-map-wrap{position:sticky;top:0;height:38vh;background:rgba(22,50,63,.6);backdrop-filter:blur(6px);margin:0 -24px;z-index:5;border-bottom:1px solid rgba(255,255,255,.1)}
+  .jr-stops{padding:8vh 0;gap:12vh}.jr-counter{display:none}}
+
+/* BUDGET */
+.budget-card{background:var(--paper);border-radius:26px;padding:clamp(32px,5vw,56px);border:.5px solid rgba(40,83,107,.1);box-shadow:0 40px 80px -50px rgba(22,50,63,.4)}
+.bd-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;margin-bottom:36px;padding-bottom:28px;border-bottom:1.5px solid rgba(40,83,107,.1)}
+.bd-total .l{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.bd-total .n{font-family:var(--serif);font-size:clamp(48px,8vw,84px);font-weight:600;line-height:.9;color:var(--indigo);font-variant-numeric:tabular-nums}
+.bd-meta{text-align:right;font-size:13px;color:var(--mid)}
+.bd-meta strong{display:block;font-family:var(--serif);font-size:26px;color:var(--ink);font-weight:600}
+.bd-rows{display:grid;gap:2px}
+.bd-row{display:grid;grid-template-columns:1fr auto;gap:16px;padding:15px 0;border-bottom:.5px solid rgba(40,83,107,.08);align-items:center}
+.bd-row .lb{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
+.bd-row .lb .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--pistachio)}
+.bd-row .lb small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:2px}
+.bd-row .vl{font-family:var(--serif);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.bd-row .vl.ok{color:var(--matcha)}
+.bd-badge{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:var(--pistachio);color:#3a6b4a;padding:2px 8px;border-radius:100px;margin-left:8px;vertical-align:middle}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tip{background:var(--paper);border:.5px solid rgba(40,83,107,.1);border-radius:18px;padding:24px;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.tip:hover{transform:translateY(-4px);box-shadow:0 30px 50px -36px rgba(22,50,63,.4)}
+.tip .ic{font-size:24px;margin-bottom:14px}
+.tip p{font-size:13px;color:var(--mid);line-height:1.6}
+@media(max-width:780px){.tips{grid-template-columns:1fr}}
+
+/* FOOTER */
+.footer{background:var(--indigo-deep);color:#fff;text-align:center;padding:clamp(70px,12vh,130px) 24px}
+.footer h2{font-family:var(--serif);font-size:clamp(48px,10vw,140px);font-weight:600;line-height:.9;letter-spacing:-.02em;margin-bottom:20px}
+.footer h2 em{font-style:italic;color:var(--peach)}
+.footer p{color:rgba(255,255,255,.55);font-size:14px;letter-spacing:.04em}
+
+/* MODALS */
+.ov{position:fixed;inset:0;z-index:9500;background:rgba(22,50,63,.7);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:var(--cream);width:100%;max-width:720px;max-height:94vh;overflow-y:auto;border-radius:28px 28px 0 0;
+  animation:up .5s var(--ease)}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet-grab{width:42px;height:4px;border-radius:2px;background:rgba(40,83,107,.2);margin:14px auto 0}
+.sheet-x{position:absolute;top:18px;right:20px;width:38px;height:38px;border-radius:50%;background:var(--paper);border:.5px solid rgba(40,83,107,.12);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;color:var(--mid);z-index:2}
+.sheet-hd{padding:18px clamp(24px,4vw,40px) 0}
+.sheet-kq{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.sheet-kq .ok{color:var(--matcha)}
+.sheet-ti{font-family:var(--serif);font-size:clamp(34px,6vw,52px);font-weight:600;line-height:.95;letter-spacing:-.01em;margin-bottom:6px}
+.sheet-su{font-size:13px;color:var(--muted);margin-bottom:22px}
+.sheet-ph{padding:0 clamp(24px,4vw,40px) 22px}
+.sheet-ph-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;height:260px}
+.sheet-ph-grid .big{grid-row:span 2;border-radius:16px;overflow:hidden;background:var(--pistachio)}
+.sheet-ph-grid .sm{border-radius:12px;overflow:hidden;background:var(--pistachio)}
+.sheet-ph-grid img{width:100%;height:100%;object-fit:cover}
+.sheet-bd{padding:0 clamp(24px,4vw,40px) 40px}
+.sheet-sct{margin-bottom:26px}
+.sheet-sct-t{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:12px}
+.irow{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:.5px solid rgba(40,83,107,.08);font-size:14px}
+.irow:last-child{border:none}
+.irow .k{color:var(--mid)}
+.irow .v{font-weight:600;text-align:right}
+.irow .v.mono{font-family:var(--serif);font-style:italic;letter-spacing:.04em}
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hl{background:var(--paper);border-radius:12px;padding:14px;font-size:13px;color:var(--mid);line-height:1.45;border-left:3px solid var(--peach)}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:transform .3s var(--ease),opacity .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn-fill{background:var(--indigo);color:#fff}
+.btn-peach{background:var(--peach);color:var(--indigo-deep)}
+.btn-ghost{background:transparent;color:var(--mid);border:.5px solid rgba(40,83,107,.2)}
+.fl-vis{display:flex;align-items:center;gap:18px;background:var(--indigo);border-radius:18px;padding:24px;margin-bottom:24px}
+.fl-vis.ret{background:var(--orchid)}
+.fl-vis .col{flex:1;text-align:center}
+.fl-vis .ia{font-family:var(--serif);font-size:40px;font-weight:600;color:#fff;line-height:.9}
+.fl-vis.ret .ia{color:var(--indigo-deep)}
+.fl-vis .nm{font-size:11px;margin-top:4px}
+.fl-vis .tm{font-size:20px;font-weight:700;color:#fff;margin-top:8px}
+.fl-vis.ret .nm,.fl-vis.ret .tm{color:var(--indigo-deep)}
+.fl-vis .mid{flex:1;text-align:center;color:rgba(255,255,255,.7);font-size:11px}
+.fl-vis.ret .mid{color:rgba(22,50,63,.6)}
+.fl-vis .mid .ln{height:1px;background:rgba(255,255,255,.3);margin:6px 0;position:relative}
+.fl-vis.ret .mid .ln{background:rgba(22,50,63,.3)}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-brand">Sicilia <em>'26</em></div>
+  <div class="nav-links">
+    <a href="#vluchten">Vluchten</a>
+    <a href="#reis">De reis</a>
+    <a href="#budget">Budget</a>
+    <span class="nav-cd" id="nav-cd">—</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-layer hero-photo" id="heroPhoto"></div>
+  <div class="hero-veil"></div>
+
+  <div class="hero-widgets">
+    <div class="glass weather-chip" id="weather">
+      <span class="ic" id="w-ic">☀️</span>
+      <div>
+        <div class="lb">Catania nu</div>
+        <div style="display:flex;align-items:baseline;gap:6px">
+          <span class="tp" id="w-tp">—°</span>
+          <span class="ds" id="w-ds">laden…</span>
+        </div>
+      </div>
+    </div>
+    <div class="glass hero-cd" id="cd">
+      <div class="blk"><div class="n" id="cd-d">00</div><div class="l">dagen</div></div>
+      <div class="sep">:</div>
+      <div class="blk"><div class="n" id="cd-h">00</div><div class="l">uren</div></div>
+      <div class="sep">:</div>
+      <div class="blk"><div class="n" id="cd-m">00</div><div class="l">min</div></div>
+      <div class="sep">:</div>
+      <div class="blk"><div class="n" id="cd-s">00</div><div class="l">sec</div></div>
+    </div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="ln"></span>2 — 14 augustus 2026 · Kristiaan &amp; Esmée</div>
+    <h1>
+      <span class="row"><span>Sicilia</span></span>
+    </h1>
+    <div class="hero-sub">
+      <span>Een roadtrip langs vulkanen, eilanden &amp; barok</span>
+      <span class="dot"></span><span>13 dagen</span>
+      <span class="dot"></span><span>Catania → Palermo</span>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span><div class="bar"></div></div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Catania</span><span>Taormina</span><span>Etna</span><span>Milazzo</span><span>Eolische eilanden</span><span>Cefalù</span><span>Palermo</span>
+    <span>Catania</span><span>Taormina</span><span>Etna</span><span>Milazzo</span><span>Eolische eilanden</span><span>Cefalù</span><span>Palermo</span>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="sec">
+  <div class="sec-label reveal"><span class="num">I</span> Het plan <span class="ln"></span></div>
+  <div class="intro-grid">
+    <div class="intro-quote lines reveal">
+      <span class="ln-m"><span>Dertien dagen</span></span>
+      <span class="ln-m"><span><em>langs de kust</em></span></span>
+      <span class="ln-m"><span>van Sicilië.</span></span>
+    </div>
+    <div>
+      <p class="intro-text reveal">Van de barokke straten van Catania, over de rokende Etna, naar de Eolische eilanden en de gouden mozaïeken van Palermo. Eén huurauto, vijf verblijven, en de Tyrreense zee als constante metgezel.</p>
+      <div class="stats reveal">
+        <div class="stat"><div class="n" data-count="13">0</div><div class="l">dagen</div></div>
+        <div class="stat"><div class="n" data-count="5">0</div><div class="l">verblijven</div></div>
+        <div class="stat"><div class="n" data-count="2">0</div><div class="l">vluchten</div></div>
+        <div class="stat"><div class="n" data-count="400"><span></span></div><div class="l">km roadtrip</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLIGHTS -->
+<section class="sec" id="vluchten">
+  <div class="sec-label reveal"><span class="num">II</span> Vluchten &amp; parking <span class="ln"></span></div>
+  <div class="flights">
+    <article class="ticket reveal tilt" onclick="openSheet('f-heen')">
+      <div class="tk-top">
+        <div>
+          <div class="tk-type" style="color:var(--indigo)">Heenvlucht</div>
+          <div class="tk-num">HV 5613</div>
+        </div>
+        <div class="tk-air"><span class="d" style="background:var(--indigo)"></span>Transavia</div>
+      </div>
+      <div class="tk-route">
+        <div class="tk-iata">RTM</div>
+        <div class="tk-path"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M2,24 Q50,-6 98,18" fill="none" stroke="var(--azure)" stroke-width="1.5" stroke-dasharray="3 3"/><circle r="2.5" fill="var(--indigo)"><animateMotion dur="3s" repeatCount="indefinite" path="M2,24 Q50,-6 98,18"/></circle></svg></div>
+        <div class="tk-iata">CTA</div>
+      </div>
+      <div class="tk-city"><span>Rotterdam</span><span>Catania</span></div>
+      <div class="tk-perf"></div>
+      <div class="tk-foot">
+        <div class="tk-time"><div class="t">15:30</div><div class="dt">Zo 2 aug</div></div>
+        <div class="tk-time" style="text-align:center"><div class="dt" style="margin:0">2u 45m · direct</div>
+          <div class="tk-status" style="background:var(--pistachio);color:#3a6b4a"><span class="live-d" id="d-heen"></span><span id="s-heen">tracking</span></div></div>
+        <div class="tk-price"><div class="p">€301</div><div class="dt" style="color:var(--muted)">2 pers.</div></div>
+      </div>
+    </article>
+
+    <article class="ticket reveal tilt" onclick="openSheet('f-terug')">
+      <div class="tk-top">
+        <div>
+          <div class="tk-type" style="color:var(--orchid)">Terugvlucht</div>
+          <div class="tk-num">HV 5640</div>
+        </div>
+        <div class="tk-air"><span class="d" style="background:var(--orchid)"></span>Transavia</div>
+      </div>
+      <div class="tk-route">
+        <div class="tk-iata">PMO</div>
+        <div class="tk-path"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M2,18 Q50,-6 98,24" fill="none" stroke="var(--azure)" stroke-width="1.5" stroke-dasharray="3 3"/><circle r="2.5" fill="var(--orchid)"><animateMotion dur="3s" repeatCount="indefinite" path="M2,18 Q50,-6 98,24"/></circle></svg></div>
+        <div class="tk-iata">RTM</div>
+      </div>
+      <div class="tk-city"><span>Palermo</span><span>Rotterdam</span></div>
+      <div class="tk-perf"></div>
+      <div class="tk-foot">
+        <div class="tk-time"><div class="t">19:55</div><div class="dt">Vr 14 aug</div></div>
+        <div class="tk-time" style="text-align:center"><div class="dt" style="margin:0">2u 45m · direct</div>
+          <div class="tk-status" style="background:var(--pistachio);color:#3a6b4a"><span class="live-d" id="d-terug"></span><span id="s-terug">tracking</span></div></div>
+        <div class="tk-price"><div class="p">€503</div><div class="dt" style="color:var(--muted)">2 pers.</div></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="flight-extra reveal">
+    <div class="lft"><strong>🅿 Speed Parking Rotterdam · 13 dagen</strong>
+      <small>Gratis shuttle · open 04:15–00:00 · sleutels meenemen · niet overdekt</small></div>
+    <div class="pr">€113<span class="bd-badge">✓ geboekt</span></div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey" id="reis">
+  <div class="sec">
+    <div class="sec-label reveal"><span class="num">III</span> De route <span class="ln"></span></div>
+    <div class="jr-grid">
+
+      <!-- STICKY MAP -->
+      <div class="jr-map-wrap">
+        <div class="jr-counter" id="jr-counter">01</div>
+        <div class="jr-map">
+          <svg id="map" viewBox="0 0 1000 640">
+            <path class="sicily-fill" d="M70,250 C90,200 150,170 200,165 C280,158 350,150 430,150 C500,150 540,158 560,165 C640,150 740,128 805,128 C850,128 875,118 890,112 C895,150 880,200 862,235 C880,270 878,310 870,335 C858,400 850,440 840,470 C820,520 760,545 700,558 C620,565 560,548 520,540 C450,528 410,512 380,500 C300,470 230,448 180,430 C120,400 80,330 70,250 Z"/>
+            <path class="route-line" id="route" d="M855,335 L852,235 Q840,150 805,130 L560,168 L440,150"/>
+            <!-- city dots: catania, taormina, milazzo, cefalu, palermo -->
+            <g id="dots">
+              <circle class="city-dot" data-i="0" cx="855" cy="335" r="6"/><circle class="city-ring" cx="855" cy="335" r="6"/>
+              <circle class="city-dot" data-i="1" cx="852" cy="235" r="6"/><circle class="city-ring" cx="852" cy="235" r="6"/>
+              <circle class="city-dot" data-i="2" cx="805" cy="130" r="6"/><circle class="city-ring" cx="805" cy="130" r="6"/>
+              <circle class="city-dot" data-i="3" cx="560" cy="168" r="6"/><circle class="city-ring" cx="560" cy="168" r="6"/>
+              <circle class="city-dot" data-i="4" cx="440" cy="150" r="6"/><circle class="city-ring" cx="440" cy="150" r="6"/>
+            </g>
+            <text class="city-lbl" data-i="0" x="875" y="340">Catania</text>
+            <text class="city-lbl" data-i="1" x="872" y="240">Taormina</text>
+            <text class="city-lbl" data-i="2" x="820" y="120">Milazzo</text>
+            <text class="city-lbl" data-i="3" x="540" y="150" text-anchor="end">Cefalù</text>
+            <text class="city-lbl" data-i="4" x="420" y="135" text-anchor="end">Palermo</text>
+            <!-- etna -->
+            <circle cx="788" cy="320" r="13" fill="rgba(255,196,155,.25)"/>
+            <text x="765" y="300" class="city-lbl" style="font-size:11px;opacity:.4;font-style:italic">Etna</text>
+            <g class="plane" id="plane"><path d="M0,-10 L3,-2 L11,0 L3,2 L2,9 L0,6 L-2,9 L-3,2 L-11,0 L-3,-2 Z" transform="rotate(20)"/></g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- SCROLLING STOPS -->
+      <div class="jr-stops">
+
+        <div class="stop reveal" data-i="0" data-color="#F3A5BC">
+          <div class="stop-idx"><span class="ln"></span>Etappe 01 · 2–5 aug</div>
+          <h3>Catania</h3>
+          <div class="nights">3 nachten · ✓ geboekt</div>
+          <div class="stop-photos">
+            <div class="ph"><img src="Verblijf 1/0e1587db-df0a-45be-92af-00631773b883.avif" alt="" loading="lazy"></div>
+            <div class="ph"><img src="Verblijf 1/3fc0f02b-903b-4362-a688-bd3bebeb169b.avif" alt="" loading="lazy"></div>
+            <div class="ph"><img src="Verblijf 1/8b3c74cc-c0c9-43fb-9ecf-74280db1408c.avif" alt="" loading="lazy"></div>
+          </div>
+          <p class="stop-desc">Aankomst &amp; auto ophalen. Barokke Piazza del Duomo, de bruisende vismarkt en pasta alla Norma. Granita con brioche als ontbijt.</p>
+          <div class="stop-tags"><span class="stag">Stad</span><span class="stag">Eten</span><span class="stag">Strand</span></div>
+          <button class="stop-btn" onclick="openSheet('catania')">Bekijk verblijf <span>→</span></button>
+        </div>
+
+        <div class="stop reveal" data-i="1" data-color="#8FB78F">
+          <div class="stop-idx"><span class="ln"></span>Etappe 02 · 5–7 aug</div>
+          <h3>Taormina<br>&amp; Etna</h3>
+          <div class="nights">2 nachten</div>
+          <p class="stop-desc">Het Grieks theater met uitzicht op de Etna, Isola Bella en een wandeling over de lavavelden van de vulkaan. Aperitivo bij zonsondergang.</p>
+          <div class="stop-tags"><span class="stag">Natuur</span><span class="stag">Cultuur</span><span class="stag">Strand</span></div>
+          <button class="stop-btn" onclick="openSheet('taormina')">Bekijk verblijf <span>→</span></button>
+          <div class="stop-drive">🚗 ~45 min vanaf Catania via A18</div>
+        </div>
+
+        <div class="stop reveal" data-i="2" data-color="#28536B">
+          <div class="stop-idx"><span class="ln"></span>Etappe 03 · 7–9 aug</div>
+          <h3>Milazzo</h3>
+          <div class="nights">2 nachten · poort naar de eilanden</div>
+          <p class="stop-desc">Vroege hydrofoil naar Lipari en Vulcano — kristalhelder water, zwavelpoelen en verse vis aan de haven. De Eolische eilanden op hun mooist.</p>
+          <div class="stop-tags"><span class="stag">Eilanden</span><span class="stag">Natuur</span><span class="stag">Boot</span></div>
+          <button class="stop-btn" onclick="openSheet('milazzo')">Bekijk verblijf <span>→</span></button>
+          <div class="stop-drive">🚗 ~1u15 via A18/A20 · ⛴ 45 min naar Lipari</div>
+        </div>
+
+        <div class="stop reveal" data-i="3" data-color="#FFC49B">
+          <div class="stop-idx"><span class="ln"></span>Etappe 04 · 9–11 aug</div>
+          <h3>Cefalù</h3>
+          <div class="nights">2 nachten</div>
+          <p class="stop-desc">Het meest fotogenieke stadje van de route. Normandische kathedraal met Byzantijnse mozaïeken, een breed stadsstrand en de klim naar La Rocca bij zonsondergang.</p>
+          <div class="stop-tags"><span class="stag">Cultuur</span><span class="stag">Strand</span></div>
+          <button class="stop-btn" onclick="openSheet('cefalu')">Bekijk verblijf <span>→</span></button>
+          <div class="stop-drive">🚗 ~1u35 via A20</div>
+        </div>
+
+        <div class="stop reveal" data-i="4" data-color="#B4CCCF">
+          <div class="stop-idx"><span class="ln"></span>Etappe 05 · 11–13 aug</div>
+          <h3>Palermo</h3>
+          <div class="nights">2 nachten · eindbestemming</div>
+          <p class="stop-desc">Goudmozaïeken in de Cappella Palatina, street food op de Ballarò-markt en de Quattro Canti. Een laatste cannolo voordat de terugvlucht wacht.</p>
+          <div class="stop-tags"><span class="stag">Cultuur</span><span class="stag">Eten</span></div>
+          <button class="stop-btn" onclick="openSheet('palermo')">Bekijk verblijf <span>→</span></button>
+          <div class="stop-drive">🚗 ~55 min via A19</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section class="sec" id="budget">
+  <div class="sec-label reveal"><span class="num">IV</span> Budget · 2 personen <span class="ln"></span></div>
+  <div class="budget-card reveal">
+    <div class="bd-head">
+      <div class="bd-total">
+        <div class="l">Realistisch totaalbudget</div>
+        <div class="n">±€<span data-count="3600">0</span></div>
+      </div>
+      <div class="bd-meta">
+        Al geboekt: <strong>€917</strong>
+        <div style="margin-top:8px;color:var(--muted)">Per persoon ±€1.600–2.000</div>
+      </div>
+    </div>
+    <div class="bd-rows">
+      <div class="bd-row"><div class="lb"><span class="ic">✈</span><div>Heenvlucht RTM→CTA<small>Transavia direct · 2 aug</small></div></div><div class="vl ok">€301</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">✈</span><div>Terugvlucht PMO→RTM<small>Transavia direct · 14 aug</small></div></div><div class="vl ok">€503</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">🅿</span><div>Parking Rotterdam<small>Speed Parking · 13 dagen</small></div></div><div class="vl ok">€113</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">🏨</span><div>Verblijf<small>10 nachten · B&amp;B / hotel</small></div></div><div class="vl">€980–1.380</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">🚗</span><div>Huurauto<small>one-way + brandstof + tol</small></div></div><div class="vl">€470–690</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">🍝</span><div>Eten &amp; drinken<small>€50–80 p/dag</small></div></div><div class="vl">€550–880</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">🌋</span><div>Activiteiten<small>Etna · boot · entrees</small></div></div><div class="vl">€150–250</div></div>
+      <div class="bd-row"><div class="lb"><span class="ic">📋</span><div>Diversen<small>toeristentaks · onvoorzien</small></div></div><div class="vl">€100–150</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="sec">
+  <div class="sec-label reveal"><span class="num">V</span> Aandachtspunten <span class="ln"></span></div>
+  <div class="tips">
+    <div class="tip reveal"><div class="ic">🚗</div><p>Huurauto vroeg boeken — vergelijk de one-way toeslag (ophalen Catania, inleveren Palermo).</p></div>
+    <div class="tip reveal"><div class="ic">⛴</div><p>Boottickets Eolische eilanden (Liberty Lines) ruim vooraf boeken — augustus zit vol.</p></div>
+    <div class="tip reveal"><div class="ic">🌋</div><p>Warme kleding mee naar de Etna — boven kan het fris zijn, ook in augustus.</p></div>
+    <div class="tip reveal"><div class="ic">🅿</div><p>Parkeren in Taormina &amp; Palermo is lastig — parkeer buiten het centrum.</p></div>
+    <div class="tip reveal"><div class="ic">🎫</div><p>Cappella Palatina &amp; populaire entrees online reserveren scheelt wachtrijen.</p></div>
+    <div class="tip reveal"><div class="ic">🧳</div><p>Handbagage check — nog niet inbegrepen bij de huidige vluchten indien gewenst.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <h2>A <em>presto</em>,<br>Sicilia</h2>
+  <p>Sicilië Roadtrip · 2 — 14 augustus 2026 · Kristiaan &amp; Esmée</p>
+</footer>
+
+<!-- ============ SHEETS ============ -->
+<div class="ov" id="ov-f-heen" onclick="bgClose(event,'f-heen')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('f-heen')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Heenvlucht · Transavia · <span class="ok">✓ geboekt</span></div><div class="sheet-ti">HV 5613</div><div class="sheet-su">Rotterdam → Catania · zondag 2 augustus 2026</div></div>
+    <div class="sheet-bd">
+      <div class="fl-vis">
+        <div class="col"><div class="ia">RTM</div><div class="nm" style="color:rgba(255,255,255,.6)">Rotterdam</div><div class="tm">15:30</div></div>
+        <div class="mid">2u 45m<div class="ln"></div>direct</div>
+        <div class="col"><div class="ia">CTA</div><div class="nm" style="color:rgba(255,255,255,.6)">Catania</div><div class="tm">18:15</div></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Vluchtdetails</div>
+        <div class="irow"><span class="k">Vluchtnummer</span><span class="v">HV5613</span></div>
+        <div class="irow"><span class="k">Maatschappij</span><span class="v">Transavia</span></div>
+        <div class="irow"><span class="k">Datum</span><span class="v">Zo 2 augustus 2026</span></div>
+        <div class="irow"><span class="k">Vertrek</span><span class="v">15:30 · Rotterdam (RTM)</span></div>
+        <div class="irow"><span class="k">Aankomst</span><span class="v">18:15 · Catania (CTA)</span></div>
+        <div class="irow"><span class="k">Passagiers</span><span class="v">2 · incl. ruimbagage</span></div>
+        <div class="irow"><span class="k">Prijs</span><span class="v">€301,17</span></div>
+      </div>
+      <div class="acts">
+        <a class="btn btn-fill" href="https://www.flightradar24.com/data/flights/hv5613" target="_blank">📡 Flightradar24</a>
+        <a class="btn btn-ghost" href="https://flightaware.com/live/flight/HV5613" target="_blank">FlightAware</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ov-f-terug" onclick="bgClose(event,'f-terug')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('f-terug')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Terugvlucht · Transavia · <span class="ok">✓ geboekt</span></div><div class="sheet-ti">HV 5640</div><div class="sheet-su">Palermo → Rotterdam · vrijdag 14 augustus 2026</div></div>
+    <div class="sheet-bd">
+      <div class="fl-vis ret">
+        <div class="col"><div class="ia">PMO</div><div class="nm">Palermo</div><div class="tm">19:55</div></div>
+        <div class="mid">2u 45m<div class="ln"></div>direct</div>
+        <div class="col"><div class="ia">RTM</div><div class="nm">Rotterdam</div><div class="tm">22:40</div></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Vluchtdetails</div>
+        <div class="irow"><span class="k">Vluchtnummer</span><span class="v">HV5640</span></div>
+        <div class="irow"><span class="k">Maatschappij</span><span class="v">Transavia</span></div>
+        <div class="irow"><span class="k">Datum</span><span class="v">Vr 14 augustus 2026</span></div>
+        <div class="irow"><span class="k">Vertrek</span><span class="v">19:55 · Palermo (PMO)</span></div>
+        <div class="irow"><span class="k">Aankomst</span><span class="v">22:40 · Rotterdam (RTM)</span></div>
+        <div class="irow"><span class="k">Passagiers</span><span class="v">2 · incl. ruimbagage</span></div>
+        <div class="irow"><span class="k">Prijs</span><span class="v">€503,27</span></div>
+      </div>
+      <div class="acts">
+        <a class="btn btn-peach" href="https://www.flightradar24.com/data/flights/hv5640" target="_blank">📡 Flightradar24</a>
+        <a class="btn btn-ghost" href="https://flightaware.com/live/flight/HV5640" target="_blank">FlightAware</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ov-catania" onclick="bgClose(event,'catania')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('catania')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Verblijf · 3 nachten · 2–5 aug · <span class="ok">✓ geboekt</span></div><div class="sheet-ti">Catania</div><div class="sheet-su">Etappe 01 · aankomststad</div></div>
+    <div class="sheet-ph"><div class="sheet-ph-grid">
+      <div class="big"><img src="Verblijf 1/0e1587db-df0a-45be-92af-00631773b883.avif" alt=""></div>
+      <div class="sm"><img src="Verblijf 1/3fc0f02b-903b-4362-a688-bd3bebeb169b.avif" alt=""></div>
+      <div class="sm"><img src="Verblijf 1/5eb55ccf-fb66-4f81-89b0-edea9f3c2aaa.avif" alt=""></div>
+      <div class="sm"><img src="Verblijf 1/8b3c74cc-c0c9-43fb-9ecf-74280db1408c.avif" alt=""></div>
+      <div class="sm"><img src="Verblijf 1/f57ead14-f8c3-4afe-9268-5d425758e91c.avif" alt=""></div>
+    </div></div>
+    <div class="sheet-bd">
+      <div class="sheet-sct"><div class="sheet-sct-t">Verblijfgegevens</div>
+        <div class="irow"><span class="k">Adres</span><span class="v">Via Marchese di Casalotto 67<br>Catania, Sicilia 95131</span></div>
+        <div class="irow"><span class="k">Check-in</span><span class="v">Zo 2 aug · 14:00</span></div>
+        <div class="irow"><span class="k">Check-out</span><span class="v">Wo 5 aug · 11:00</span></div>
+        <div class="irow"><span class="k">Bevestigingscode</span><span class="v mono">HMYNNAFB2P</span></div>
+        <div class="irow"><span class="k">Auto ophalen</span><span class="v">Catania Fontanarossa Airport</span></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Highlights</div><div class="hl-grid">
+        <div class="hl">🏛️ Piazza del Duomo &amp; kathedraal</div>
+        <div class="hl">🐟 Vismarkt La Pescheria</div>
+        <div class="hl">🌊 Strand Lido di Plaja</div>
+        <div class="hl">🍝 Pasta alla Norma</div>
+        <div class="hl">🍧 Granita con brioche</div>
+        <div class="hl">⛪ Benedictijns klooster</div>
+      </div></div>
+      <div class="acts">
+        <a class="btn btn-fill" href="https://www.google.com/maps/dir/?api=1&destination=Via+Marchese+di+Casalotto+67+Catania" target="_blank">🗺 Route naar verblijf</a>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/search/Via+Marchese+di+Casalotto+67+Catania" target="_blank">Bekijk op Maps</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ov-taormina" onclick="bgClose(event,'taormina')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('taormina')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Verblijf · 2 nachten · 5–7 aug</div><div class="sheet-ti">Taormina &amp; Etna</div><div class="sheet-su">Etappe 02 · dagtocht vulkaan</div></div>
+    <div class="sheet-bd" style="padding-top:18px">
+      <div class="sheet-sct"><div class="sheet-sct-t">Verblijfgegevens</div>
+        <div class="irow"><span class="k">Adres</span><span class="v" style="color:var(--muted)">Nog in te vullen</span></div>
+        <div class="irow"><span class="k">Check-in</span><span class="v">5 augustus</span></div>
+        <div class="irow"><span class="k">Check-out</span><span class="v">7 augustus</span></div>
+        <div class="irow"><span class="k">Tip parkeren</span><span class="v">Lumbi parking, buiten centrum</span></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Highlights</div><div class="hl-grid">
+        <div class="hl">🏟️ Grieks theater met Etna-uitzicht</div>
+        <div class="hl">🌋 Etna via Rifugio Sapienza</div>
+        <div class="hl">🏖️ Isola Bella</div>
+        <div class="hl">🛍️ Corso Umberto</div>
+        <div class="hl">🌅 Zonsondergang met vulkaan</div>
+        <div class="hl">🚠 Optioneel: kabelbaan Etna</div>
+      </div></div>
+      <div class="acts">
+        <a class="btn btn-fill" href="https://www.google.com/maps/search/Taormina+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="btn btn-peach" href="https://www.google.com/maps/dir//Rifugio+Sapienza+Etna" target="_blank">🌋 Route Etna</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ov-milazzo" onclick="bgClose(event,'milazzo')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('milazzo')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Verblijf · 2 nachten · 7–9 aug</div><div class="sheet-ti">Milazzo</div><div class="sheet-su">Etappe 03 · poort naar de Eolische eilanden</div></div>
+    <div class="sheet-bd" style="padding-top:18px">
+      <div class="sheet-sct"><div class="sheet-sct-t">Verblijfgegevens</div>
+        <div class="irow"><span class="k">Adres</span><span class="v" style="color:var(--muted)">Nog in te vullen</span></div>
+        <div class="irow"><span class="k">Check-in</span><span class="v">7 augustus</span></div>
+        <div class="irow"><span class="k">Check-out</span><span class="v">9 augustus</span></div>
+        <div class="irow"><span class="k">Boot</span><span class="v">Liberty Lines · ~45 min Lipari</span></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Eolische eilanden — dagtocht</div><div class="hl-grid">
+        <div class="hl">⛴ Hydrofoil vanuit Milazzo</div>
+        <div class="hl">🏖️ Lipari — kristalhelder water</div>
+        <div class="hl">♨️ Vulcano — zwavelpoelen</div>
+        <div class="hl">🎣 Visrestaurant aan de haven</div>
+        <div class="hl">⚠️ Tickets vroeg boeken!</div>
+        <div class="hl">🏰 Kasteel van Milazzo</div>
+      </div></div>
+      <div class="acts">
+        <a class="btn btn-fill" href="https://www.google.com/maps/search/Milazzo+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="btn btn-peach" href="https://www.libertylines.it" target="_blank">⛴ Liberty Lines</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ov-cefalu" onclick="bgClose(event,'cefalu')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('cefalu')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Verblijf · 2 nachten · 9–11 aug</div><div class="sheet-ti">Cefalù</div><div class="sheet-su">Etappe 04 · strandstad met kathedraal</div></div>
+    <div class="sheet-bd" style="padding-top:18px">
+      <div class="sheet-sct"><div class="sheet-sct-t">Verblijfgegevens</div>
+        <div class="irow"><span class="k">Adres</span><span class="v" style="color:var(--muted)">Nog in te vullen</span></div>
+        <div class="irow"><span class="k">Check-in</span><span class="v">9 augustus</span></div>
+        <div class="irow"><span class="k">Check-out</span><span class="v">11 augustus</span></div>
+        <div class="irow"><span class="k">Tip parkeren</span><span class="v">Buiten historisch centrum</span></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Highlights</div><div class="hl-grid">
+        <div class="hl">⛪ Kathedraal — Byzantijnse mozaïeken</div>
+        <div class="hl">🏖️ Breed stadsstrand</div>
+        <div class="hl">⛰️ La Rocca bij zonsondergang</div>
+        <div class="hl">🐟 Verse vis in het centrum</div>
+        <div class="hl">📸 Mooiste foto-locatie</div>
+        <div class="hl">🚶 Compact &amp; te voet</div>
+      </div></div>
+      <div class="acts">
+        <a class="btn btn-fill" href="https://www.google.com/maps/search/Cefalù+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="btn btn-peach" href="https://www.google.com/maps/dir//La+Rocca+Cefalù" target="_blank">⛰️ Route La Rocca</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="ov-palermo" onclick="bgClose(event,'palermo')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('palermo')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Verblijf · 2 nachten · 11–13 aug</div><div class="sheet-ti">Palermo</div><div class="sheet-su">Etappe 05 · eindbestemming · vertrek 14 aug 19:55</div></div>
+    <div class="sheet-bd" style="padding-top:18px">
+      <div class="sheet-sct"><div class="sheet-sct-t">Verblijfgegevens</div>
+        <div class="irow"><span class="k">Adres</span><span class="v" style="color:var(--muted)">Nog in te vullen</span></div>
+        <div class="irow"><span class="k">Check-in</span><span class="v">11 augustus</span></div>
+        <div class="irow"><span class="k">Check-out</span><span class="v">13 augustus</span></div>
+        <div class="irow"><span class="k">Vliegveld</span><span class="v">Falcone-Borsellino · ~30 min</span></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Highlights</div><div class="hl-grid">
+        <div class="hl">⛪ Cappella Palatina — goudmozaïeken</div>
+        <div class="hl">🥘 Ballarò-markt — street food</div>
+        <div class="hl">🕌 Kathedraal van Palermo</div>
+        <div class="hl">📍 Quattro Canti</div>
+        <div class="hl">🍮 Cannolo &amp; cassata</div>
+        <div class="hl">✈️ Vertrek 14 aug 19:55</div>
+      </div></div>
+      <div class="acts">
+        <a class="btn btn-fill" href="https://www.google.com/maps/search/Palermo+Sicilië" target="_blank">🗺 Open in Maps</a>
+        <a class="btn btn-peach" href="https://www.google.com/maps/dir//Palermo+Airport" target="_blank">✈️ Route vliegveld</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- LOAD ---- */
+window.addEventListener('load', ()=>{ document.body.classList.add('loaded'); });
+setTimeout(()=>document.body.classList.add('loaded'), 600);
+
+/* ---- LENIS SMOOTH SCROLL ---- */
+let lenis=null;
+if(window.Lenis && !RM){
+  lenis=new Lenis({lerp:.09,wheelMultiplier:1});
+  function raf(t){lenis.raf(t);requestAnimationFrame(raf);}
+  requestAnimationFrame(raf);
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-40});}});
+  });
+}
+
+/* ---- PROGRESS + NAV ---- */
+const prog=document.getElementById('progress'), nav=document.getElementById('nav');
+function onScroll(){
+  const h=document.documentElement;
+  const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+  prog.style.width=(p*100)+'%';
+  if(h.scrollTop>window.innerHeight*.6)nav.classList.add('show');else nav.classList.remove('show');
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+if(lenis)lenis.on('scroll',onScroll);
+
+/* ---- HERO PARALLAX ---- */
+const hp=document.getElementById('heroPhoto');
+if(!RM){
+  let tx=0,ty=0,cx=0,cy=0;
+  window.addEventListener('mousemove',e=>{
+    tx=(e.clientX/window.innerWidth-.5);ty=(e.clientY/window.innerHeight-.5);
+  });
+  function loop(){cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;
+    hp.style.transform=`scale(1.12) translate(${cx*-26}px,${cy*-26}px)`;requestAnimationFrame(loop);}
+  loop();
+}
+
+/* ---- REVEAL ---- */
+const io=new IntersectionObserver((es)=>{
+  es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+},{threshold:.18});
+document.querySelectorAll('.reveal,.lines').forEach(el=>io.observe(el));
+
+/* ---- COUNT UP ---- */
+function countUp(el){
+  const tgt=+el.dataset.count, dur=1600, st=performance.now();
+  const pre=el.textContent.includes('±')?'':'';
+  function step(now){
+    const p=Math.min((now-st)/dur,1), e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(tgt*e).toLocaleString('nl-NL');
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const ioc=new IntersectionObserver((es)=>{
+  es.forEach(en=>{if(en.isIntersecting){
+    const node=en.target.dataset.count!==undefined?en.target:en.target.querySelector('[data-count]');
+    countUp(en.target);ioc.unobserve(en.target);
+  }});
+},{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>ioc.observe(el));
+
+/* ---- 3D TILT ---- */
+if(!RM && window.matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.tilt').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+      card.style.transform=`perspective(900px) rotateY(${(px-.5)*9}deg) rotateX(${(.5-py)*9}deg) translateZ(0)`;
+      card.style.setProperty('--mx',px*100+'%');card.style.setProperty('--my',py*100+'%');
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';});
+  });
+}
+
+/* ---- JOURNEY MAP ---- */
+const route=document.getElementById('route'), plane=document.getElementById('plane');
+const journey=document.getElementById('reis'), counter=document.getElementById('jr-counter');
+const names=['Catania','Taormina','Milazzo','Cefalù','Palermo'];
+if(route){
+  const len=route.getTotalLength();
+  route.style.setProperty('--len',len);
+  // draw when journey enters
+  new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting)journey.classList.add('draw');});},{threshold:.1}).observe(journey);
+  // fractions of each city along the path
+  const fr=[0,0,0,0,0];
+  // approximate by sampling nearest path point to each dot
+  const dots=[...document.querySelectorAll('.city-dot')];
+  dots.forEach((d,i)=>{
+    const dx=+d.getAttribute('cx'),dy=+d.getAttribute('cy');
+    let best=1e9,bl=0;
+    for(let l=0;l<=len;l+=len/400){const pt=route.getPointAtLength(l);const dist=(pt.x-dx)**2+(pt.y-dy)**2;if(dist<best){best=dist;bl=l;}}
+    fr[i]=bl/len;
+  });
+  function setActive(i){
+    document.querySelectorAll('.city-dot,.city-lbl').forEach(el=>el.classList.toggle('active',+el.dataset.i===i));
+    counter.textContent=String(i+1).padStart(2,'0');
+    const pt=route.getPointAtLength(fr[i]*len);
+    plane.style.transform=`translate(${pt.x}px,${pt.y}px)`;
+  }
+  setActive(0);
+  // sync active stop to scroll
+  const stops=[...document.querySelectorAll('.stop')];
+  const ios=new IntersectionObserver((es)=>{
+    es.forEach(en=>{if(en.isIntersecting){setActive(+en.target.dataset.i);}});
+  },{rootMargin:'-45% 0px -45% 0px'});
+  stops.forEach(s=>ios.observe(s));
+}
+
+/* ---- COUNTDOWN ---- */
+const target=new Date('2026-08-02T15:30:00+02:00');
+function pad(n){return String(n).padStart(2,'0');}
+function cd(){
+  const diff=target-new Date();
+  if(diff<=0){document.getElementById('cd').innerHTML='<div style="padding:6px 4px;font-family:var(--serif);font-style:italic;font-size:22px;color:#fff">Buon viaggio! ✈</div>';document.getElementById('nav-cd').textContent='In Sicilië';return;}
+  const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
+  document.getElementById('cd-d').textContent=pad(d);document.getElementById('cd-h').textContent=pad(h);
+  document.getElementById('cd-m').textContent=pad(m);document.getElementById('cd-s').textContent=pad(s);
+  document.getElementById('nav-cd').textContent=d+' dagen';
+}
+cd();setInterval(cd,1000);
+
+/* ---- WEATHER ---- */
+(function(){
+  const W={0:'Helder',1:'Vrijwel helder',2:'Half bewolkt',3:'Bewolkt',45:'Mistig',48:'Mistig',51:'Motregen',53:'Motregen',55:'Motregen',61:'Regen',63:'Regen',65:'Zware regen',80:'Buien',81:'Buien',82:'Zware buien',95:'Onweer',96:'Onweer',99:'Onweer'};
+  const I={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'⛈️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5&longitude=15.09&current=temperature_2m,weather_code&timezone=Europe%2FRome')
+   .then(r=>r.json()).then(d=>{
+     const t=Math.round(d.current.temperature_2m),c=d.current.weather_code;
+     document.getElementById('w-tp').textContent=t+'°';
+     document.getElementById('w-ds').textContent=W[c]||'';
+     document.getElementById('w-ic').textContent=I[c]||'🌡️';
+   }).catch(()=>{document.getElementById('weather').style.display='none';});
+})();
+
+/* ---- FLIGHT STATUS DOTS ---- */
+const FL=[{id:'heen',dep:new Date('2026-08-02T15:30:00+02:00'),arr:new Date('2026-08-02T18:15:00+02:00')},
+          {id:'terug',dep:new Date('2026-08-14T19:55:00+02:00'),arr:new Date('2026-08-14T22:40:00+02:00')}];
+function fstat(){
+  const now=new Date();
+  FL.forEach(f=>{
+    const d=document.getElementById('d-'+f.id),s=document.getElementById('s-'+f.id);
+    if(!d)return;
+    if(now>=f.arr){d.className='live-d';s.textContent='geland ✓';}
+    else if(now>=f.dep){d.className='live-d green';s.textContent='in de lucht';}
+    else if(f.dep-now<864e5){d.className='live-d amber';s.textContent='vandaag';}
+    else{d.className='live-d';s.textContent='gepland';}
+  });
+}
+fstat();setInterval(fstat,30000);
+
+/* ---- SHEETS ---- */
+function openSheet(id){const o=document.getElementById('ov-'+id);if(o){o.classList.add('on');document.body.style.overflow='hidden';if(lenis)lenis.stop();}}
+function closeSheet(id){const o=document.getElementById('ov-'+id);if(o){o.classList.remove('on');document.body.style.overflow='';if(lenis)lenis.start();}}
+function bgClose(e,id){if(e.target===e.currentTarget)closeSheet(id);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));document.body.style.overflow='';if(lenis)lenis.start();}});
+</script>
+</body>
+</html>
