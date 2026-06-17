@@ -9,18 +9,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream: #F9F5EE;
-  --warm: #EDE5D8;
-  --sand: #C9B99A;
-  --terra: #C4622D;
-  --terra-light: #E8896A;
-  --ocean: #1B4F6B;
-  --ocean-mid: #2B6A8E;
-  --dark: #181510;
-  --mid: #4A4540;
-  --muted: #8A8278;
+  /* Summer palette */
+  --cream: #F0F7EF;        /* licht pistachio achtergrond */
+  --warm: #CBE6C7;         /* Pistachio — borders & cards */
+  --sand: #B4CCCF;         /* Azure — subtiele accenten */
+  --terra: #8FB78F;        /* Matcha — primaire accent */
+  --terra-light: #FFC49B;  /* Peach — lichte highlight */
+  --orchid: #F3A5BC;       /* Orchid — secundair accent */
+  --ocean: #28536B;        /* Indigo — donkere achtergrond */
+  --ocean-mid: #3a7090;    /* Indigo mid */
+  --dark: #1a3344;         /* Diepe indigo tekst */
+  --mid: #3d5c6a;          /* Medium indigo-grijs */
+  --muted: #7a9ba6;        /* Gedempt azure */
   --white: #FFFFFF;
-  --green: #2E6B42;
+  --green: #4a7c59;        /* Diep matcha voor badges */
 }
 
 html { scroll-behavior: smooth; }
@@ -193,12 +195,12 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 .timeline-dates { font-size: 11px; color: var(--sand); }
 .timeline-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 .ttag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 100px; }
-.ttag-stad { background: #EEE8F8; color: #5C44A8; }
-.ttag-natuur { background: #E2F0E8; color: #2E6B42; }
-.ttag-strand { background: #E0EEF7; color: #1B5A7A; }
-.ttag-eten { background: #F5EDD8; color: #7A5520; }
-.ttag-rijdag { background: #F5EAE2; color: #8A3E1C; }
-.ttag-cultuur { background: #EEE8F8; color: #5C44A8; }
+.ttag-stad    { background: #dce8ec; color: #28536B; }   /* Azure */
+.ttag-natuur  { background: #d4edd1; color: #3a6b4a; }   /* Pistachio */
+.ttag-strand  { background: #CBE6C7; color: #28536B; }   /* Pistachio/Indigo */
+.ttag-eten    { background: #ffe8d6; color: #7a4a2a; }   /* Peach */
+.ttag-rijdag  { background: #fad5e4; color: #8a3a5a; }   /* Orchid */
+.ttag-cultuur { background: #dce8ec; color: #28536B; }   /* Azure */
 
 .timeline-place { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 5px; }
 .timeline-desc { font-size: 13px; color: var(--mid); line-height: 1.55; max-width: 520px; }
@@ -219,11 +221,11 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
 /* VERBLIJF-items (grotere kaarten) */
 .timeline-item.is-stay .timeline-card { border-left: 3px solid transparent; }
-.timeline-item.is-stay.catania .timeline-card { border-left-color: #7F77DD; }
-.timeline-item.is-stay.taormina .timeline-card { border-left-color: #1D9E75; }
-.timeline-item.is-stay.milazzo .timeline-card { border-left-color: #2B5F7E; }
-.timeline-item.is-stay.cefalù .timeline-card { border-left-color: #BA7517; }
-.timeline-item.is-stay.palermo .timeline-card { border-left-color: #7F77DD; }
+.timeline-item.is-stay.catania .timeline-card  { border-left-color: #F3A5BC; } /* Orchid */
+.timeline-item.is-stay.taormina .timeline-card { border-left-color: #8FB78F; } /* Matcha */
+.timeline-item.is-stay.milazzo .timeline-card  { border-left-color: #28536B; } /* Indigo */
+.timeline-item.is-stay.cefalù .timeline-card   { border-left-color: #FFC49B; } /* Peach */
+.timeline-item.is-stay.palermo .timeline-card  { border-left-color: #B4CCCF; } /* Azure */
 
 /* Photo strip preview */
 .photo-strip { display: flex; gap: 6px; padding: 0 24px 20px; overflow-x: auto; scrollbar-width: none; }
@@ -250,11 +252,11 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 .modal-overlay {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(24,21,16,0.7);
+  background: rgba(26,51,68,0.75);
   z-index: 1000;
   align-items: flex-end;
   justify-content: center;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 .modal-overlay.active { display: flex; }
 
@@ -327,10 +329,10 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 .modal-btn:hover { opacity: 0.85; }
 .modal-btn-primary { background: var(--ocean); color: white; }
 .modal-btn-secondary { background: var(--cream); color: var(--dark); border: 0.5px solid var(--warm); }
-.modal-btn-terra { background: var(--terra); color: white; }
+.modal-btn-terra { background: var(--orchid); color: #1a3344; }
 
 .modal-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.modal-highlight { background: var(--cream); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--mid); line-height: 1.45; border-left: 3px solid var(--sand); }
+.modal-highlight { background: var(--cream); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--mid); line-height: 1.45; border-left: 3px solid var(--terra); }
 
 /* ─── BUDGET BOX ─── */
 .budget-section { margin-top: 80px; }
@@ -548,7 +550,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 1-2: CATANIA -->
       <div class="timeline-item is-stay catania" onclick="openModal('catania')">
-        <div class="timeline-dot" style="background:#7F77DD"></div>
+        <div class="timeline-dot" style="background:#F3A5BC"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -578,7 +580,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 3: NAAR TAORMINA -->
       <div class="timeline-item" onclick="openModal('taormina')">
-        <div class="timeline-dot" style="background:#1D9E75"></div>
+        <div class="timeline-dot" style="background:#8FB78F"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -600,7 +602,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 3-4: TAORMINA VERBLIJF -->
       <div class="timeline-item is-stay taormina" onclick="openModal('taormina')">
-        <div class="timeline-dot" style="background:#1D9E75"></div>
+        <div class="timeline-dot" style="background:#8FB78F"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -629,7 +631,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 5: NAAR MILAZZO -->
       <div class="timeline-item" onclick="openModal('milazzo')">
-        <div class="timeline-dot" style="background:#2B5F7E"></div>
+        <div class="timeline-dot" style="background:#28536B"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -651,7 +653,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 5-6: MILAZZO & EOLISCHE EILANDEN -->
       <div class="timeline-item is-stay milazzo" onclick="openModal('milazzo')">
-        <div class="timeline-dot" style="background:#2B5F7E"></div>
+        <div class="timeline-dot" style="background:#28536B"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -680,7 +682,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 7: NAAR CEFALÙ -->
       <div class="timeline-item" onclick="openModal('cefalù')">
-        <div class="timeline-dot" style="background:#BA7517"></div>
+        <div class="timeline-dot" style="background:#FFC49B"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -702,7 +704,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 7-8: CEFALÙ -->
       <div class="timeline-item is-stay cefalù" onclick="openModal('cefalù')">
-        <div class="timeline-dot" style="background:#BA7517"></div>
+        <div class="timeline-dot" style="background:#FFC49B"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -730,7 +732,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 9: NAAR PALERMO -->
       <div class="timeline-item" onclick="openModal('palermo')">
-        <div class="timeline-dot" style="background:#7F77DD"></div>
+        <div class="timeline-dot" style="background:#F3A5BC"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
@@ -752,7 +754,7 @@ body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-
 
       <!-- DAG 9-11: PALERMO -->
       <div class="timeline-item is-stay palermo" onclick="openModal('palermo')">
-        <div class="timeline-dot" style="background:#7F77DD"></div>
+        <div class="timeline-dot" style="background:#F3A5BC"></div>
         <div class="timeline-card">
           <div class="timeline-card-inner">
             <div class="timeline-card-left">
