@@ -7,11 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root {
-  --matcha:#8FB78F; --pistachio:#CBE6C7; --azure:#B4CCCF;
-  --indigo:#28536B; --indigo-deep:#16323F; --orchid:#F3A5BC; --peach:#FFC49B;
-  --cream:#F6F4EC; --paper:#FFFFFF; --ink:#16323F; --mid:#3d5c6a; --muted:#8aa3ad;
+  --matcha:#8FB78F; --pistachio:#CBE6C7; --azure:#B4CCCF; --azure-deep:#6f93a3;
+  --orchid:#F3A5BC; --rose:#d76a93; --peach:#FFC49B;
+  --indigo:#6f93a3; --indigo-deep:#352b3a; --plum:#352b3a;
+  --cream:#F7F4EC; --paper:#FFFFFF; --ink:#42333f; --mid:#6f6470; --muted:#a39aa3;
   --ease:cubic-bezier(.16,1,.3,1);
   --serif:'Cormorant Garamond',serif; --sans:'Nunito',sans-serif;
 }
@@ -20,7 +22,7 @@ html{scroll-behavior:smooth}
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-stopped{overflow:hidden}
-body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 
@@ -90,8 +92,20 @@ a{color:inherit;text-decoration:none}
 .loaded .scroll-cue{opacity:1}
 .scroll-cue .bar{width:1px;height:46px;background:linear-gradient(to bottom,rgba(255,255,255,.6),transparent);animation:cue 2.2s var(--ease) infinite}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media(max-width:780px){.hero-widgets{top:auto;bottom:auto;position:static;flex-direction:row;flex-wrap:wrap;padding:0 24px;margin-top:0}.scroll-cue{display:none}
-  .hero-inner{padding-bottom:28px}.hero-cd .n{font-size:26px}.hero-cd .blk{min-width:38px}}
+@media(max-width:780px){
+  .hero{height:100svh;min-height:560px;flex-direction:column;align-items:stretch;justify-content:flex-end}
+  .hero-inner{order:0;padding-bottom:20px}
+  .hero h1{font-size:clamp(54px,17vw,130px);line-height:.9}
+  .hero-eyebrow{font-size:10px;letter-spacing:.16em;margin-bottom:14px;gap:9px}
+  .hero-eyebrow .ln{width:22px}
+  .hero-sub{font-size:12.5px;gap:7px 11px}
+  .hero-widgets{order:1;position:static;top:auto;right:auto;flex-direction:column;align-items:stretch;gap:9px;
+    padding:0 clamp(24px,6vw,80px);margin-top:18px;transform:none;opacity:1}
+  .weather-chip,.hero-cd{width:100%}
+  .hero-cd{justify-content:space-between;gap:4px}
+  .hero-cd .n{font-size:23px}.hero-cd .blk{min-width:0}.hero-cd .sep{font-size:22px}
+  .scroll-cue{display:none}
+}
 
 /* MARQUEE */
 .marquee{background:var(--indigo-deep);color:#fff;padding:20px 0;overflow:hidden;white-space:nowrap;border-block:1px solid rgba(255,255,255,.08)}
@@ -105,6 +119,20 @@ a{color:inherit;text-decoration:none}
 .sec-label{display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--indigo);margin-bottom:28px}
 .sec-label .num{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--orchid);letter-spacing:0}
 .sec-label .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(40,83,107,.3),transparent)}
+
+/* FORECAST */
+.fc-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.fc-day{background:var(--paper);border:.5px solid rgba(53,43,58,.08);border-radius:16px;padding:18px 10px;text-align:center;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.fc-day.today{background:linear-gradient(180deg,#fff,var(--pistachio));border-color:transparent}
+.fc-day:hover{transform:translateY(-4px);box-shadow:0 24px 40px -30px rgba(53,43,58,.4)}
+.fc-dow{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.fc-date{font-size:10px;color:var(--muted);margin-top:1px}
+.fc-ic{font-size:30px;margin:12px 0 10px}
+.fc-max{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1}
+.fc-min{font-size:12px;color:var(--muted);margin-top:2px}
+.fc-note{font-size:12px;color:var(--muted);margin-top:16px;font-style:italic}
+@media(max-width:780px){.fc-strip{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:38%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+  .fc-day{scroll-snap-align:start}}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(46px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
@@ -167,51 +195,54 @@ a{color:inherit;text-decoration:none}
 .flight-extra .pr{font-family:var(--serif);font-size:22px;font-weight:600}
 @media(max-width:780px){.flights{grid-template-columns:1fr}}
 
-/* JOURNEY (sticky map + scroll cards) */
-.journey{background:var(--indigo-deep);color:#fff;position:relative;overflow:hidden}
+/* JOURNEY (sticky real map + scroll cards) */
+.journey{background:linear-gradient(180deg,#F3F1E9 0%,#E9F0EE 55%,#F1ECEF 100%);color:var(--ink);position:relative}
 .journey .sec{max-width:1240px}
-.journey .sec-label{color:var(--peach)}
-.journey .sec-label .ln{background:linear-gradient(90deg,rgba(255,255,255,.3),transparent)}
-.jr-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
-.jr-map-wrap{position:sticky;top:14vh;height:72vh;display:flex;align-items:center;justify-content:center}
-.jr-map{width:100%;max-width:560px}
-.jr-map svg{width:100%;height:auto;overflow:visible}
-.sicily-fill{fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.18);stroke-width:1.5}
-.route-line{fill:none;stroke:var(--peach);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 2.4s var(--ease)}
-.journey.draw .route-line{stroke-dashoffset:0}
-.city-dot{fill:rgba(255,255,255,.35);transition:all .5s var(--ease)}
-.city-dot.active{fill:var(--peach);r:9}
-.city-ring{fill:none;stroke:var(--peach);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .5s}
-.city-dot.active+.city-ring{opacity:.5;animation:ring 2s ease-out infinite}
-@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(3.2);opacity:0}}
-.city-lbl{fill:#fff;font-family:var(--sans);font-size:13px;font-weight:700;opacity:.35;transition:opacity .4s}
-.city-lbl.active{opacity:1}
-.plane{transition:transform 1s var(--ease);fill:#fff}
-.jr-counter{position:absolute;top:14vh;left:0;font-family:var(--serif);font-size:clamp(120px,20vw,260px);font-weight:600;
-  color:rgba(255,255,255,.04);line-height:1;pointer-events:none;font-style:italic}
+.journey .sec-label{color:var(--azure-deep)}
+.jr-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:start}
+.jr-map-wrap{position:sticky;top:12vh;height:76vh}
+.jr-map{position:relative;width:100%;height:100%}
+#map{width:100%;height:100%;border-radius:22px;background:#e6ebe9;box-shadow:0 40px 80px -50px rgba(53,43,58,.55);z-index:1}
+.leaflet-container{font-family:var(--sans);background:#e6ebe9}
+.leaflet-control-attribution{font-size:9px!important;background:rgba(255,255,255,.7)!important}
+.map-badge{position:absolute;top:16px;left:16px;z-index:500;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-radius:100px;
+  padding:8px 15px;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink);display:flex;align-items:center;gap:9px;box-shadow:0 8px 20px -10px rgba(0,0,0,.35)}
+.map-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(215,106,147,.5);animation:pls2 2s infinite}
+@keyframes pls2{0%{box-shadow:0 0 0 0 rgba(215,106,147,.5)}70%{box-shadow:0 0 0 9px rgba(215,106,147,0)}100%{box-shadow:0 0 0 0 rgba(215,106,147,0)}}
+.map-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:13px;padding:30px}
+/* leaflet pins */
+.pin{background:none!important;border:none!important}
+.pin span{position:relative;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;font-weight:700;font-size:13px;border:2.5px solid #fff;box-shadow:0 4px 12px rgba(53,43,58,.4);transition:transform .45s var(--ease)}
+.pin.active span{transform:scale(1.45)}
+.pin.active span::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--c);animation:pinring 1.8s ease-out infinite}
+@keyframes pinring{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.6);opacity:0}}
 
-.jr-stops{display:flex;flex-direction:column;gap:14vh;padding:18vh 0}
+.jr-stops{display:flex;flex-direction:column;gap:16vh;padding:20vh 0}
 .stop{scroll-margin-top:30vh}
-.stop-idx{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--peach);margin-bottom:10px;display:flex;align-items:center;gap:10px}
-.stop-idx .ln{width:30px;height:1px;background:var(--peach);opacity:.5}
-.stop h3{font-family:var(--serif);font-size:clamp(38px,5.5vw,64px);font-weight:600;line-height:.98;letter-spacing:-.01em;margin-bottom:8px}
-.stop .nights{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:18px}
+.stop-idx{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--rose);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.stop-idx .ln{width:30px;height:1px;background:var(--rose);opacity:.5}
+.stop h3{font-family:var(--serif);font-size:clamp(38px,5.5vw,66px);font-weight:600;line-height:.96;letter-spacing:-.01em;margin-bottom:8px;color:var(--ink)}
+.stop .nights{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
 .stop-photos{display:flex;gap:10px;margin-bottom:20px}
-.stop-photos .ph{flex:1;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.06);transform:translateY(20px);opacity:0;transition:all .8s var(--ease)}
+.stop-photos .ph{flex:1;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:#fff;transform:translateY(20px);opacity:0;transition:all .8s var(--ease);box-shadow:0 20px 40px -30px rgba(53,43,58,.45)}
 .stop.in .stop-photos .ph{transform:none;opacity:1}
 .stop.in .stop-photos .ph:nth-child(2){transition-delay:.1s}
 .stop.in .stop-photos .ph:nth-child(3){transition-delay:.2s}
 .stop-photos .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
 .stop-photos .ph:hover img{transform:scale(1.08)}
-.stop-desc{font-size:15px;color:rgba(255,255,255,.72);line-height:1.7;max-width:46ch;margin-bottom:18px}
+.stop-desc{font-size:15px;color:var(--mid);line-height:1.7;max-width:46ch;margin-bottom:18px}
 .stop-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
-.stag{font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:100px;background:rgba(255,255,255,.08);color:#fff}
-.stop-btn{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.03em;color:var(--indigo-deep);
-  background:var(--peach);padding:13px 22px;border-radius:100px;transition:transform .3s var(--ease),gap .3s var(--ease);border:none;cursor:pointer}
+.stag{font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:100px;background:var(--paper);border:.5px solid rgba(53,43,58,.1);color:var(--mid)}
+.stop-btn{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.03em;color:#fff;
+  background:var(--rose);padding:13px 22px;border-radius:100px;transition:transform .3s var(--ease),gap .3s var(--ease);border:none;cursor:pointer;box-shadow:0 12px 26px -12px rgba(215,106,147,.75)}
 .stop-btn:hover{transform:translateY(-2px);gap:14px}
-.stop-drive{margin-top:16px;font-size:12px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
-@media(max-width:880px){.jr-grid{grid-template-columns:1fr;gap:0}.jr-map-wrap{position:sticky;top:0;height:38vh;background:rgba(22,50,63,.6);backdrop-filter:blur(6px);margin:0 -24px;z-index:5;border-bottom:1px solid rgba(255,255,255,.1)}
-  .jr-stops{padding:8vh 0;gap:12vh}.jr-counter{display:none}}
+.stop-drive{margin-top:16px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+@media(max-width:880px){
+  .jr-grid{display:block}
+  .jr-map-wrap{position:sticky;top:0;height:42svh;margin:0 -24px 5vh;padding:0;z-index:5;box-shadow:0 18px 30px -22px rgba(53,43,58,.55)}
+  #map{border-radius:0;height:100%;box-shadow:none}
+  .map-badge{top:12px;left:12px}
+  .jr-stops{padding:2vh 0 4vh;gap:11vh}}
 
 /* BUDGET */
 .budget-card{background:var(--paper);border-radius:26px;padding:clamp(32px,5vw,56px);border:.5px solid rgba(40,83,107,.1);box-shadow:0 40px 80px -50px rgba(22,50,63,.4)}
@@ -246,7 +277,7 @@ a{color:inherit;text-decoration:none}
 /* MODALS */
 .ov{position:fixed;inset:0;z-index:9500;background:rgba(22,50,63,.7);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center}
 .ov.on{display:flex}
-.sheet{background:var(--cream);width:100%;max-width:720px;max-height:94vh;overflow-y:auto;border-radius:28px 28px 0 0;
+.sheet{background:var(--cream);width:100%;max-width:720px;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:28px 28px 0 0;
   animation:up .5s var(--ease)}
 @keyframes up{from{transform:translateY(100%)}to{transform:none}}
 .sheet-grab{width:42px;height:4px;border-radius:2px;background:rgba(40,83,107,.2);margin:14px auto 0}
@@ -272,11 +303,25 @@ a{color:inherit;text-decoration:none}
 .irow .v.mono{font-family:var(--serif);font-style:italic;letter-spacing:.04em}
 .hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .hl{background:var(--paper);border-radius:12px;padding:14px;font-size:13px;color:var(--mid);line-height:1.45;border-left:3px solid var(--peach)}
+.train-row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:.5px solid rgba(53,43,58,.08)}
+.train-row:last-of-type{border-bottom:none}
+.train-t{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ink);min-width:64px;font-variant-numeric:tabular-nums}
+.train-info{flex:1}
+.train-info strong{font-size:13px;font-weight:700}
+.train-info small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+.train-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--azure);color:#2c5563;padding:3px 9px;border-radius:100px}
+.train-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px;font-style:italic}
+.wx-row{display:flex;align-items:center;gap:14px;padding:9px 2px;border-bottom:.5px solid rgba(53,43,58,.07)}
+.wx-row:last-child{border-bottom:none}
+.wx-h{font-family:var(--serif);font-size:18px;font-weight:600;min-width:50px;color:var(--ink)}
+.wx-ic{font-size:20px;min-width:26px;text-align:center}
+.wx-t{font-family:var(--serif);font-size:19px;font-weight:600;min-width:46px}
+.wx-p{flex:1;text-align:right;font-size:12px;font-weight:600;color:var(--azure-deep)}
 .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:transform .3s var(--ease),opacity .3s}
 .btn:hover{transform:translateY(-2px)}
-.btn-fill{background:var(--indigo);color:#fff}
-.btn-peach{background:var(--peach);color:var(--indigo-deep)}
+.btn-fill{background:var(--rose);color:#fff}
+.btn-peach{background:var(--peach);color:var(--plum)}
 .btn-ghost{background:transparent;color:var(--mid);border:.5px solid rgba(40,83,107,.2)}
 .fl-vis{display:flex;align-items:center;gap:18px;background:var(--indigo);border-radius:18px;padding:24px;margin-bottom:24px}
 .fl-vis.ret{background:var(--orchid)}
@@ -379,6 +424,15 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
+<!-- FORECAST -->
+<section class="sec" style="padding-top:0">
+  <div class="sec-label reveal"><span class="num">☀</span> Weer in Sicilië · komende 7 dagen <span class="ln"></span></div>
+  <div class="fc-strip reveal" id="fc-strip">
+    <div class="fc-day"><div class="fc-dow">—</div><div class="fc-ic">⏳</div><div class="fc-max">—°</div></div>
+  </div>
+  <p class="fc-note" id="fc-note">Live verwachting voor Catania.</p>
+</section>
+
 <!-- FLIGHTS -->
 <section class="sec" id="vluchten">
   <div class="sec-label reveal"><span class="num">II</span> Vluchten &amp; parking <span class="ln"></span></div>
@@ -393,16 +447,16 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="tk-route">
         <div class="tk-iata">RTM</div>
-        <div class="tk-path"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M2,24 Q50,-6 98,18" fill="none" stroke="var(--azure)" stroke-width="1.5" stroke-dasharray="3 3"/><circle r="2.5" fill="var(--indigo)"><animateMotion dur="3s" repeatCount="indefinite" path="M2,24 Q50,-6 98,18"/></circle></svg></div>
+        <div class="tk-path"><svg viewBox="0 0 100 30"><path d="M3,25 Q50,-4 97,16" fill="none" stroke="var(--azure)" stroke-width="1.5" stroke-dasharray="2 4"/><text font-size="14" text-anchor="middle" dominant-baseline="central">✈️<animateMotion dur="3.6s" repeatCount="indefinite" path="M3,25 Q50,-4 97,16"/></text></svg></div>
         <div class="tk-iata">CTA</div>
       </div>
       <div class="tk-city"><span>Rotterdam</span><span>Catania</span></div>
       <div class="tk-perf"></div>
       <div class="tk-foot">
         <div class="tk-time"><div class="t">15:30</div><div class="dt">Zo 2 aug</div></div>
-        <div class="tk-time" style="text-align:center"><div class="dt" style="margin:0">2u 45m · direct</div>
+        <div class="tk-time" style="text-align:center"><div class="dt" style="margin:0 0 6px">2u 45m · direct</div>
           <div class="tk-status" style="background:var(--pistachio);color:#3a6b4a"><span class="live-d" id="d-heen"></span><span id="s-heen">tracking</span></div></div>
-        <div class="tk-price"><div class="p">€301</div><div class="dt" style="color:var(--muted)">2 pers.</div></div>
+        <div class="tk-time" style="text-align:right"><div class="t">18:15</div><div class="dt">aankomst</div></div>
       </div>
     </article>
 
@@ -416,24 +470,27 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="tk-route">
         <div class="tk-iata">PMO</div>
-        <div class="tk-path"><svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M2,18 Q50,-6 98,24" fill="none" stroke="var(--azure)" stroke-width="1.5" stroke-dasharray="3 3"/><circle r="2.5" fill="var(--orchid)"><animateMotion dur="3s" repeatCount="indefinite" path="M2,18 Q50,-6 98,24"/></circle></svg></div>
+        <div class="tk-path"><svg viewBox="0 0 100 30"><path d="M3,16 Q50,-4 97,25" fill="none" stroke="var(--azure)" stroke-width="1.5" stroke-dasharray="2 4"/><text font-size="14" text-anchor="middle" dominant-baseline="central">✈️<animateMotion dur="3.6s" repeatCount="indefinite" path="M3,16 Q50,-4 97,25"/></text></svg></div>
         <div class="tk-iata">RTM</div>
       </div>
       <div class="tk-city"><span>Palermo</span><span>Rotterdam</span></div>
       <div class="tk-perf"></div>
       <div class="tk-foot">
         <div class="tk-time"><div class="t">19:55</div><div class="dt">Vr 14 aug</div></div>
-        <div class="tk-time" style="text-align:center"><div class="dt" style="margin:0">2u 45m · direct</div>
+        <div class="tk-time" style="text-align:center"><div class="dt" style="margin:0 0 6px">2u 45m · direct</div>
           <div class="tk-status" style="background:var(--pistachio);color:#3a6b4a"><span class="live-d" id="d-terug"></span><span id="s-terug">tracking</span></div></div>
-        <div class="tk-price"><div class="p">€503</div><div class="dt" style="color:var(--muted)">2 pers.</div></div>
+        <div class="tk-time" style="text-align:right"><div class="t">22:40</div><div class="dt">aankomst</div></div>
       </div>
     </article>
   </div>
 
   <div class="flight-extra reveal">
     <div class="lft"><strong>🅿 Speed Parking Rotterdam · 13 dagen</strong>
-      <small>Gratis shuttle · open 04:15–00:00 · sleutels meenemen · niet overdekt</small></div>
-    <div class="pr">€113<span class="bd-badge">✓ geboekt</span></div>
+      <small>Gratis shuttle (5 min) · open 04:15–00:00 · sleutels meenemen · niet overdekt</small></div>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <a class="btn btn-ghost" style="padding:10px 16px" href="https://www.google.com/maps/dir/?api=1&destination=Speed+Parking+Rotterdam+The+Hague+Airport" target="_blank">🧭 Route naar parkeerplaats</a>
+      <div class="pr">€113<span class="bd-badge">✓ geboekt</span></div>
+    </div>
   </div>
 </section>
 
@@ -443,31 +500,11 @@ a{color:inherit;text-decoration:none}
     <div class="sec-label reveal"><span class="num">III</span> De route <span class="ln"></span></div>
     <div class="jr-grid">
 
-      <!-- STICKY MAP -->
+      <!-- STICKY MAP (Leaflet) -->
       <div class="jr-map-wrap">
-        <div class="jr-counter" id="jr-counter">01</div>
         <div class="jr-map">
-          <svg id="map" viewBox="0 0 1000 640">
-            <path class="sicily-fill" d="M70,250 C90,200 150,170 200,165 C280,158 350,150 430,150 C500,150 540,158 560,165 C640,150 740,128 805,128 C850,128 875,118 890,112 C895,150 880,200 862,235 C880,270 878,310 870,335 C858,400 850,440 840,470 C820,520 760,545 700,558 C620,565 560,548 520,540 C450,528 410,512 380,500 C300,470 230,448 180,430 C120,400 80,330 70,250 Z"/>
-            <path class="route-line" id="route" d="M855,335 L852,235 Q840,150 805,130 L560,168 L440,150"/>
-            <!-- city dots: catania, taormina, milazzo, cefalu, palermo -->
-            <g id="dots">
-              <circle class="city-dot" data-i="0" cx="855" cy="335" r="6"/><circle class="city-ring" cx="855" cy="335" r="6"/>
-              <circle class="city-dot" data-i="1" cx="852" cy="235" r="6"/><circle class="city-ring" cx="852" cy="235" r="6"/>
-              <circle class="city-dot" data-i="2" cx="805" cy="130" r="6"/><circle class="city-ring" cx="805" cy="130" r="6"/>
-              <circle class="city-dot" data-i="3" cx="560" cy="168" r="6"/><circle class="city-ring" cx="560" cy="168" r="6"/>
-              <circle class="city-dot" data-i="4" cx="440" cy="150" r="6"/><circle class="city-ring" cx="440" cy="150" r="6"/>
-            </g>
-            <text class="city-lbl" data-i="0" x="875" y="340">Catania</text>
-            <text class="city-lbl" data-i="1" x="872" y="240">Taormina</text>
-            <text class="city-lbl" data-i="2" x="820" y="120">Milazzo</text>
-            <text class="city-lbl" data-i="3" x="540" y="150" text-anchor="end">Cefalù</text>
-            <text class="city-lbl" data-i="4" x="420" y="135" text-anchor="end">Palermo</text>
-            <!-- etna -->
-            <circle cx="788" cy="320" r="13" fill="rgba(255,196,155,.25)"/>
-            <text x="765" y="300" class="city-lbl" style="font-size:11px;opacity:.4;font-style:italic">Etna</text>
-            <g class="plane" id="plane"><path d="M0,-10 L3,-2 L11,0 L3,2 L2,9 L0,6 L-2,9 L-3,2 L-11,0 L-3,-2 Z" transform="rotate(20)"/></g>
-          </svg>
+          <div id="map"><div class="map-fallback">De kaart laadt…</div></div>
+          <div class="map-badge"><span class="pulse"></span><span id="map-badge-txt">Etappe 01 · Catania</span></div>
         </div>
       </div>
 
@@ -596,7 +633,13 @@ a{color:inherit;text-decoration:none}
         <div class="irow"><span class="k">Vertrek</span><span class="v">15:30 · Rotterdam (RTM)</span></div>
         <div class="irow"><span class="k">Aankomst</span><span class="v">18:15 · Catania (CTA)</span></div>
         <div class="irow"><span class="k">Passagiers</span><span class="v">2 · incl. ruimbagage</span></div>
-        <div class="irow"><span class="k">Prijs</span><span class="v">€301,17</span></div>
+      </div>
+      <div class="sheet-sct"><div class="sheet-sct-t">Trein naar Catania centrum · na landing 18:15</div>
+        <div class="train-row"><span class="train-t">≈18:45</span><div class="train-info"><strong>Regionale → Catania Centrale</strong><small>Catania Aeroporto-Fontanarossa · ±10 min, non-stop</small></div><span class="train-tag">trein</span></div>
+        <div class="train-row"><span class="train-t">≈19:45</span><div class="train-info"><strong>Regionale → Catania Centrale</strong><small>Trenitalia · station ín de luchthaven</small></div><span class="train-tag">trein</span></div>
+        <div class="train-row"><span class="train-t">≈20:45</span><div class="train-info"><strong>Regionale → Catania Centrale</strong><small>rijdt ongeveer 1× per uur</small></div><span class="train-tag">trein</span></div>
+        <p class="train-note">Richttijden — Trenitalia regionale vanaf het station bij de luchthaven (±10 min). Exacte tijden voor augustus 2026 staan nog niet vast; check de live dienstregeling vlak voor vertrek.</p>
+        <div class="acts" style="margin-top:12px"><a class="btn btn-fill" href="https://www.google.com/maps/dir/?api=1&origin=Catania+Aeroporto-Fontanarossa+Stazione&destination=Catania+Centrale&travelmode=transit" target="_blank">🚆 Live treintijden</a></div>
       </div>
       <div class="acts">
         <a class="btn btn-fill" href="https://www.flightradar24.com/data/flights/hv5613" target="_blank">📡 Flightradar24</a>
@@ -622,7 +665,6 @@ a{color:inherit;text-decoration:none}
         <div class="irow"><span class="k">Vertrek</span><span class="v">19:55 · Palermo (PMO)</span></div>
         <div class="irow"><span class="k">Aankomst</span><span class="v">22:40 · Rotterdam (RTM)</span></div>
         <div class="irow"><span class="k">Passagiers</span><span class="v">2 · incl. ruimbagage</span></div>
-        <div class="irow"><span class="k">Prijs</span><span class="v">€503,27</span></div>
       </div>
       <div class="acts">
         <a class="btn btn-peach" href="https://www.flightradar24.com/data/flights/hv5640" target="_blank">📡 Flightradar24</a>
@@ -770,6 +812,15 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- WEER DETAIL (per dag, per uur) -->
+<div class="ov" id="ov-weather" onclick="bgClose(event,'weather')">
+  <div class="sheet" style="position:relative"><div class="sheet-grab"></div><div class="sheet-x" onclick="closeSheet('weather')">✕</div>
+    <div class="sheet-hd"><div class="sheet-kq">Weer · Catania, Sicilië</div><div class="sheet-ti" id="wx-ti">—</div><div class="sheet-su" id="wx-su"></div></div>
+    <div class="sheet-bd" style="padding-top:8px"><div class="sheet-sct-t" style="margin-bottom:6px">Per uur · 06:00 – 23:00</div><div id="wx-hours"></div></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script>
 const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -850,39 +901,62 @@ if(!RM && window.matchMedia('(hover:hover)').matches){
   });
 }
 
-/* ---- JOURNEY MAP ---- */
-const route=document.getElementById('route'), plane=document.getElementById('plane');
-const journey=document.getElementById('reis'), counter=document.getElementById('jr-counter');
-const names=['Catania','Taormina','Milazzo','Cefalù','Palermo'];
-if(route){
-  const len=route.getTotalLength();
-  route.style.setProperty('--len',len);
-  // draw when journey enters
-  new IntersectionObserver((es)=>{es.forEach(en=>{if(en.isIntersecting)journey.classList.add('draw');});},{threshold:.1}).observe(journey);
-  // fractions of each city along the path
-  const fr=[0,0,0,0,0];
-  // approximate by sampling nearest path point to each dot
-  const dots=[...document.querySelectorAll('.city-dot')];
-  dots.forEach((d,i)=>{
-    const dx=+d.getAttribute('cx'),dy=+d.getAttribute('cy');
-    let best=1e9,bl=0;
-    for(let l=0;l<=len;l+=len/400){const pt=route.getPointAtLength(l);const dist=(pt.x-dx)**2+(pt.y-dy)**2;if(dist<best){best=dist;bl=l;}}
-    fr[i]=bl/len;
+/* ---- JOURNEY: ECHTE KAART (Leaflet) ---- */
+(function(){
+  const el=document.getElementById('map');
+  if(!el)return;
+  if(!window.L){el.innerHTML='<div class="map-fallback">Kaart kon niet laden — controleer je verbinding.</div>';return;}
+  el.innerHTML='';
+  const CITIES=[
+    {n:'Catania',ll:[37.5079,15.0830],c:'#d76a93'},
+    {n:'Taormina',ll:[37.8526,15.2876],c:'#6f9e6f'},
+    {n:'Milazzo',ll:[38.2197,15.2410],c:'#6f93a3'},
+    {n:'Cefalù',ll:[38.0397,14.0228],c:'#e3924f'},
+    {n:'Palermo',ll:[38.1157,13.3615],c:'#b06a9a'}
+  ];
+  const ROUTE=[
+    [37.5079,15.0830],[37.8526,15.2876],[38.1938,15.5540],
+    [38.2197,15.2410],[38.10,14.63],[38.0397,14.0228],[38.1157,13.3615]
+  ];
+  const map=L.map(el,{zoomControl:false,attributionControl:true,dragging:false,scrollWheelZoom:false,
+    doubleClickZoom:false,touchZoom:false,boxZoom:false,keyboard:false,zoomSnap:.25}).setView([38.0,14.5],8);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {attribution:'© OpenStreetMap · © CARTO',maxZoom:19,subdomains:'abcd'}).addTo(map);
+  let rShadow=L.polyline(ROUTE,{color:'#ffffff',weight:7,opacity:.85,lineJoin:'round',lineCap:'round'}).addTo(map);
+  let rLine=L.polyline(ROUTE,{color:'#d76a93',weight:3.5,opacity:.95,dashArray:'1 10',lineJoin:'round',lineCap:'round'}).addTo(map);
+  // route over de wegen via OSRM (valt terug op rechte lijn bij fout)
+  const osrmPts=CITIES.map(c=>c.ll[1]+','+c.ll[0]).join(';');
+  fetch('https://router.project-osrm.org/route/v1/driving/'+osrmPts+'?overview=full&geometries=geojson')
+    .then(r=>r.json()).then(j=>{
+      if(!j.routes||!j.routes[0])return;
+      const coords=j.routes[0].geometry.coordinates.map(p=>[p[1],p[0]]);
+      map.removeLayer(rShadow);map.removeLayer(rLine);
+      L.polyline(coords,{color:'#ffffff',weight:7,opacity:.85,lineJoin:'round',lineCap:'round'}).addTo(map);
+      L.polyline(coords,{color:'#d76a93',weight:3.5,opacity:.95,dashArray:'1 10',lineJoin:'round',lineCap:'round'}).addTo(map);
+    }).catch(()=>{});
+  const markers=CITIES.map((c,i)=>{
+    const icon=L.divIcon({className:'pin',html:'<span style="--c:'+c.c+'">'+(i+1)+'</span>',iconSize:[30,30],iconAnchor:[15,15]});
+    return L.marker(c.ll,{icon}).addTo(map);
   });
-  function setActive(i){
-    document.querySelectorAll('.city-dot,.city-lbl').forEach(el=>el.classList.toggle('active',+el.dataset.i===i));
-    counter.textContent=String(i+1).padStart(2,'0');
-    const pt=route.getPointAtLength(fr[i]*len);
-    plane.style.transform=`translate(${pt.x}px,${pt.y}px)`;
+  const bounds=L.latLngBounds(CITIES.map(c=>c.ll)).pad(.2);
+  setTimeout(()=>{map.invalidateSize();map.fitBounds(bounds);},300);
+  window.addEventListener('resize',()=>map.invalidateSize());
+  if(lenis)lenis.on('scroll',()=>map.invalidateSize());
+
+  let cur=-1;
+  const badge=document.getElementById('map-badge-txt');
+  function focus(i){
+    if(i===cur)return;cur=i;
+    markers.forEach((m,j)=>{const e=m.getElement();if(e)e.classList.toggle('active',j===i);});
+    map.flyTo(CITIES[i].ll,11,{duration:1.6});
+    if(badge)badge.textContent='Etappe '+String(i+1).padStart(2,'0')+' · '+CITIES[i].n;
   }
-  setActive(0);
-  // sync active stop to scroll
   const stops=[...document.querySelectorAll('.stop')];
   const ios=new IntersectionObserver((es)=>{
-    es.forEach(en=>{if(en.isIntersecting){setActive(+en.target.dataset.i);}});
+    es.forEach(en=>{if(en.isIntersecting)focus(+en.target.dataset.i);});
   },{rootMargin:'-45% 0px -45% 0px'});
   stops.forEach(s=>ios.observe(s));
-}
+})();
 
 /* ---- COUNTDOWN ---- */
 const target=new Date('2026-08-02T15:30:00+02:00');
@@ -897,18 +971,55 @@ function cd(){
 }
 cd();setInterval(cd,1000);
 
-/* ---- WEATHER ---- */
+/* ---- WEATHER (nu + 7-daags) ---- */
 (function(){
   const W={0:'Helder',1:'Vrijwel helder',2:'Half bewolkt',3:'Bewolkt',45:'Mistig',48:'Mistig',51:'Motregen',53:'Motregen',55:'Motregen',61:'Regen',63:'Regen',65:'Zware regen',80:'Buien',81:'Buien',82:'Zware buien',95:'Onweer',96:'Onweer',99:'Onweer'};
   const I={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'⛈️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
-  fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5&longitude=15.09&current=temperature_2m,weather_code&timezone=Europe%2FRome')
+  const DOW=['zo','ma','di','wo','do','vr','za'];
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5&longitude=15.09&current=temperature_2m,weather_code&hourly=temperature_2m,weather_code,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=Europe%2FRome')
    .then(r=>r.json()).then(d=>{
      const t=Math.round(d.current.temperature_2m),c=d.current.weather_code;
      document.getElementById('w-tp').textContent=t+'°';
      document.getElementById('w-ds').textContent=W[c]||'';
      document.getElementById('w-ic').textContent=I[c]||'🌡️';
-   }).catch(()=>{document.getElementById('weather').style.display='none';});
+     const strip=document.getElementById('fc-strip'),dl=d.daily;
+     window.__wx={daily:dl,hourly:d.hourly,W:W,I:I};
+     if(strip&&dl){
+       let html='';
+       for(let i=0;i<dl.time.length;i++){
+         const dt=new Date(dl.time[i]+'T12:00:00'),code=dl.weather_code[i];
+         html+='<div class="fc-day'+(i===0?' today':'')+'" style="cursor:pointer" onclick="openWeather('+i+')">'
+           +'<div class="fc-dow">'+(i===0?'Vandaag':DOW[dt.getDay()])+'</div>'
+           +'<div class="fc-date">'+dt.getDate()+'/'+(dt.getMonth()+1)+'</div>'
+           +'<div class="fc-ic">'+(I[code]||'🌡️')+'</div>'
+           +'<div class="fc-max">'+Math.round(dl.temperature_2m_max[i])+'°</div>'
+           +'<div class="fc-min">'+Math.round(dl.temperature_2m_min[i])+'°</div>'
+           +'<div style="font-size:10px;color:var(--rose);font-weight:700;margin-top:8px">per uur →</div></div>';
+       }
+       strip.innerHTML=html;
+     }
+   }).catch(()=>{const w=document.getElementById('weather');if(w)w.style.display='none';const n=document.getElementById('fc-note');if(n)n.textContent='Weer kon niet laden.';});
 })();
+const DOWFULL=['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'];
+function openWeather(idx){
+  const wx=window.__wx;if(!wx)return;
+  const dl=wx.daily,hr=wx.hourly,date=dl.time[idx],dt=new Date(date+'T12:00:00');
+  document.getElementById('wx-ti').textContent=(idx===0?'Vandaag':DOWFULL[dt.getDay()])+' '+dt.getDate()+'/'+(dt.getMonth()+1);
+  document.getElementById('wx-su').textContent='Max '+Math.round(dl.temperature_2m_max[idx])+'° · min '+Math.round(dl.temperature_2m_min[idx])+'° · '+(wx.W[dl.weather_code[idx]]||'');
+  let html='';
+  for(let i=0;i<hr.time.length;i++){
+    if(hr.time[i].slice(0,10)!==date)continue;
+    const h=+hr.time[i].slice(11,13);
+    if(h<6||h>23)continue;
+    const pr=hr.precipitation_probability?hr.precipitation_probability[i]:null;
+    html+='<div class="wx-row"><span class="wx-h">'+hr.time[i].slice(11,16)+'</span>'
+      +'<span class="wx-ic">'+(wx.I[hr.weather_code[i]]||'🌡️')+'</span>'
+      +'<span class="wx-t">'+Math.round(hr.temperature_2m[i])+'°</span>'
+      +'<span class="wx-p">'+(pr!=null?'💧 '+pr+'%':'')+'</span></div>';
+  }
+  document.getElementById('wx-hours').innerHTML=html||'<p class="train-note">Geen uurdata voor deze dag.</p>';
+  openSheet('weather');
+}
 
 /* ---- FLIGHT STATUS DOTS ---- */
 const FL=[{id:'heen',dep:new Date('2026-08-02T15:30:00+02:00'),arr:new Date('2026-08-02T18:15:00+02:00')},
@@ -927,7 +1038,8 @@ function fstat(){
 fstat();setInterval(fstat,30000);
 
 /* ---- SHEETS ---- */
-function openSheet(id){const o=document.getElementById('ov-'+id);if(o){o.classList.add('on');document.body.style.overflow='hidden';if(lenis)lenis.stop();}}
+document.querySelectorAll('.sheet').forEach(s=>s.setAttribute('data-lenis-prevent',''));
+function openSheet(id){const o=document.getElementById('ov-'+id);if(o){o.scrollTop=0;const sh=o.querySelector('.sheet');if(sh)sh.scrollTop=0;o.classList.add('on');document.body.style.overflow='hidden';if(lenis)lenis.stop();}}
 function closeSheet(id){const o=document.getElementById('ov-'+id);if(o){o.classList.remove('on');document.body.style.overflow='';if(lenis)lenis.start();}}
 function bgClose(e,id){if(e.target===e.currentTarget)closeSheet(id);}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));document.body.style.overflow='';if(lenis)lenis.start();}});
