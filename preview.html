@@ -26,6 +26,18 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:10000;background:var(--plum);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#loader.exit{animation:loaderOut 1s var(--ease) forwards}
+@keyframes loaderOut{to{transform:translateY(-101%)}}
+.ld-sub{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.45);opacity:0;animation:ldIn .8s var(--ease) .1s forwards}
+.ld-title{font-family:var(--serif);font-size:clamp(56px,13vw,140px);font-weight:600;color:#fff;letter-spacing:-.02em;line-height:1;opacity:0;transform:translateY(16px);animation:ldIn .9s var(--ease) .2s forwards}
+.ld-bar{width:min(240px,52vw);height:2px;background:rgba(255,255,255,.16);border-radius:2px;overflow:hidden;margin-top:6px}
+.ld-bar-fill{height:100%;background:var(--peach);transform:scaleX(0);transform-origin:left}
+.ld-num{position:absolute;bottom:30px;right:34px;font-family:var(--serif);font-size:clamp(30px,6vw,46px);color:rgba(255,255,255,.45);font-variant-numeric:tabular-nums}
+.ld-plane{position:absolute;bottom:34px;left:34px;font-size:20px;opacity:.5}
+@keyframes ldIn{to{opacity:1;transform:none}}
+
 /* GRAIN + PROGRESS */
 .grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.045;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -340,6 +352,13 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
+<div id="loader">
+  <div class="ld-sub">Reisplan · MMXXVI</div>
+  <div class="ld-title">Sicilia</div>
+  <div class="ld-bar"><div class="ld-bar-fill"></div></div>
+  <span class="ld-plane">✈️</span>
+  <div class="ld-num">0</div>
+</div>
 <div class="grain"></div>
 <div class="progress" id="progress"></div>
 
@@ -825,9 +844,24 @@ a{color:inherit;text-decoration:none}
 <script>
 const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---- LOAD ---- */
-window.addEventListener('load', ()=>{ document.body.classList.add('loaded'); });
-setTimeout(()=>document.body.classList.add('loaded'), 600);
+/* ---- LOAD / INTRO ANIMATIE ---- */
+let __started=false;
+function startLoader(){
+  if(__started)return;__started=true;
+  const loader=document.getElementById('loader');
+  if(RM||!loader){document.body.classList.add('loaded');if(loader)loader.remove();return;}
+  const num=loader.querySelector('.ld-num'),fill=loader.querySelector('.ld-bar-fill');
+  const dur=1500,st=performance.now();
+  (function step(now){
+    const p=Math.min((now-st)/dur,1),e=1-Math.pow(1-p,2);
+    if(num)num.textContent=Math.round(e*100);
+    if(fill)fill.style.transform='scaleX('+e+')';
+    if(p<1){requestAnimationFrame(step);}
+    else{loader.classList.add('exit');document.body.classList.add('loaded');setTimeout(()=>loader.remove(),1000);}
+  })(performance.now());
+}
+window.addEventListener('load',startLoader);
+setTimeout(startLoader,2200);
 
 /* ---- LENIS SMOOTH SCROLL ---- */
 let lenis=null;
